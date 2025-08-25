@@ -22,7 +22,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://github.com/Shyamalb4u/tradebuddy",
+  "homepage": "https://shyamalb4u.github.io/tradebuddy",
   "eslintConfig": {
     "extends": [
       "react-app",
