@@ -49,11 +49,15 @@ export default function HomePage() {
         <div className="container">
           <div className="row">
             <div className="col-sm-6 col-md-4 logo">
-              <img className="light" src="./images/logo.png" alt="Cp mercury" />
+              <img
+                className="light"
+                src={process.env.PUBLIC_URL + "/images/logo.png"}
+                alt="Trade Buddy"
+              />
               <img
                 className="dark"
-                src="./images/dark-logo.png"
-                alt="Cp mercury"
+                src={process.env.PUBLIC_URL + "/images/dark-logo.png"}
+                alt="Trade Buddy"
               />
             </div>
             <div className="col-sm-6 col-md-8">
@@ -98,7 +102,11 @@ export default function HomePage() {
       <div className="midd-container">
         <div
           className="hero-main mercury-layout white-sec"
-          style={{ background: `url("./images/banner-6.jpg")` }}
+          style={{
+            background: `url(${
+              process.env.PUBLIC_URL + "/images/banner-6.jpg"
+            })`,
+          }}
         >
           <div className="container">
             <div className="row align-items-center flex-row-reverse">
@@ -142,7 +150,10 @@ export default function HomePage() {
             <div className="row flex-row-reverse align-items-center">
               <div className="col-lg-6 col-md-12">
                 <div className="about-mercury-img mobile-visible">
-                  <img src="./images/graph.jpg" alt="About Mercury" />
+                  <img
+                    src={process.env.PUBLIC_URL + "/images/graph.jpg"}
+                    alt="About"
+                  />
                 </div>
                 <div className="about-mercury-animation mobile-hidden">
                   {/* <div className="coin-animation">
@@ -158,7 +169,7 @@ export default function HomePage() {
                   </div> */}
                   <img
                     className="mercury-base"
-                    src="./images/graph.jpg"
+                    src={process.env.PUBLIC_URL + "/images/graph.jpg"}
                     alt="About Trade Buddy"
                   />
                 </div>
@@ -208,7 +219,9 @@ export default function HomePage() {
                 <div className="benefit-box text-center">
                   <div className="benefit-icon">
                     <img
-                      src="./images/benefit-icon-1.png"
+                      src={
+                        process.env.PUBLIC_URL + "/images/benefit-icon-1.png"
+                      }
                       alt="Safe and Secure"
                     />
                   </div>
@@ -225,7 +238,9 @@ export default function HomePage() {
                 <div className="benefit-box text-center">
                   <div className="benefit-icon">
                     <img
-                      src="./images/benefit-icon-2.png"
+                      src={
+                        process.env.PUBLIC_URL + "/images/benefit-icon-2.png"
+                      }
                       alt="Instant Exchange"
                     />
                   </div>
@@ -242,7 +257,9 @@ export default function HomePage() {
                 <div className="benefit-box text-center">
                   <div className="benefit-icon">
                     <img
-                      src="./images/benefit-icon-3.png"
+                      src={
+                        process.env.PUBLIC_URL + "/images/benefit-icon-3.png"
+                      }
                       alt="World Coverage"
                     />
                   </div>
