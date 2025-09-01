@@ -2,92 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
-      name="description"
-      content="Web site created using create-react-app"
+      name="Trade Buddy"
+      content="We make managing your cryptocurrency portfolio easier than ever."
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link
-      href="https://fonts.googleapis.com/css?family=PT+Sans:400,700"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="%PUBLIC_URL%/fonts/fonts.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/fonts/font-icons.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/css/styles.css" />
+    <!-- <link rel="shortcut icon" href="images/logo/48.png" />
+    <link rel="apple-touch-icon-precomposed" href="images/logo/48.png" /> -->
+
     <title>Trade Buddy</title>
-    <link
-      rel="stylesheet"
-      href="%PUBLIC_URL%/css/fontawesome.min.css"
-      type="text/css"
-    />
-    <link
-      rel="stylesheet"
-      href="%PUBLIC_URL%/css/bootstrap.css"
-      type="text/css"
-    />
-    <link
-      rel="stylesheet"
-      href="%PUBLIC_URL%/css/animate.css"
-      type="text/css"
-    />
-    <link
-      rel="stylesheet"
-      href="%PUBLIC_URL%/css/owl.carousel.min.css"
-      type="text/css"
-    />
-    <link rel="stylesheet" href="%PUBLIC_URL%/style.css" type="text/css" />
-    <link
-      rel="stylesheet"
-      href="%PUBLIC_URL%/css/responsive.css"
-      type="text/css"
-    />
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script src="%PUBLIC_URL%/js/jquery.min.js"></script>
-    <script src="%PUBLIC_URL%/js/bootstrap.min.js"></script>
-    <script src="%PUBLIC_URL%/js/onpagescroll.js"></script>
-    <script src="%PUBLIC_URL%/js/wow.min.js"></script>
-    <script src="%PUBLIC_URL%/js/jquery.countdown.js"></script>
-    <script src="%PUBLIC_URL%/js/owl.carousel.js"></script>
-    <script src="%PUBLIC_URL%/js/script.js"></script>
-    <script type="text/javascript">
-      function isScrolledIntoView(elem) {
-        var docViewTop = jQuery(window).scrollTop();
-        var docViewBottom = docViewTop + jQuery(window).height();
-        var elemTop = jQuery(elem).offset().top;
-        var elemBottom = elemTop + jQuery(elem).height();
-        return elemBottom <= docViewBottom && elemTop >= docViewTop;
-      }
-      jQuery(window).scroll(function () {
-        jQuery(".about-mercury-animation").each(function () {
-          if (isScrolledIntoView(this) === true) {
-            jQuery(this).addClass("visible");
-          }
-        });
-        jQuery(".token-pricing-section").each(function () {
-          if (isScrolledIntoView(this) === true) {
-            jQuery(this).addClass("visible");
-          }
-        });
-      });
-      jQuery(document).ready(function () {
-        jQuery(".allocation-list-point li:first-child").addClass("hover");
-        jQuery(".allocation-list-point li .point").hover(function () {
-          jQuery(".allocation-list-point li").removeClass("hover");
-          jQuery(this).parent("li").addClass("hover");
-        });
-      });
-    </script>
+    <script
+      type="text/javascript"
+      src="%PUBLIC_URL%/js/bootstrap.min.js"
+    ></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/js/jquery.min.js"></script>
+    <script
+      type="text/javascript"
+      src="%PUBLIC_URL%/js/swiper-bundle.min.js"
+    ></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/js/carousel.js"></script>
+    <!-- <script type="text/javascript" src="%PUBLIC_URL%/js/apexcharts.js"></script> -->
+    <script
+      type="text/javascript"
+      src="%PUBLIC_URL%/js/chart.bundle.min.js"
+    ></script>
+    <!-- <script type="text/javascript" src="%PUBLIC_URL%/js/line-chart.js"></script> -->
+    <script type="text/javascript" src="%PUBLIC_URL%/js/main.js"></script>
   </body>
 </html>
