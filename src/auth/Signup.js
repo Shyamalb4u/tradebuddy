@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { ethers } from "ethers";
@@ -31,6 +31,16 @@ export default function Signup() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isBusi, setIsBusi] = useState(false);
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const uid = searchParams.get("s");
+  console.log(uid);
+  useEffect(() => {
+    setRefer(uid);
+  }, []);
 
   ////////////////////
   // function createWallet() {
@@ -58,8 +68,10 @@ export default function Signup() {
     return regex.test(password);
   };
   async function onSignup() {
+    setIsBusi(true);
     //console.log(refer, name, mobile, mail, password);
     if (refer.length < 6) {
+      setIsBusi(false);
       setErrorMessage("Invalid Referral ID");
       const modalEl = document.getElementById("messageModal");
       const modal = new window.bootstrap.Modal(modalEl);
@@ -72,6 +84,7 @@ export default function Signup() {
       const reData = await result.json();
 
       if (reData.data === "No Data") {
+        setIsBusi(false);
         setErrorMessage("Invalid Referral ID");
         new window.bootstrap.Modal(
           document.getElementById("messageModal")
@@ -79,11 +92,13 @@ export default function Signup() {
         return;
       }
     } catch (e) {
+      setIsBusi(false);
       console.log(e);
       return;
     }
 
     if (name.length < 4) {
+      setIsBusi(false);
       setErrorMessage("Enter Full Name");
       const modalEl = document.getElementById("messageModal");
       const modal = new window.bootstrap.Modal(modalEl);
@@ -91,6 +106,7 @@ export default function Signup() {
       return;
     }
     if (mobile.length < 10) {
+      setIsBusi(false);
       setErrorMessage("Invalid Mobile No");
       const modalEl = document.getElementById("messageModal");
       const modal = new window.bootstrap.Modal(modalEl);
@@ -98,6 +114,7 @@ export default function Signup() {
       return;
     }
     if (!validateEmail(mail)) {
+      setIsBusi(false);
       setErrorMessage("Invalid Email");
       const modalEl = document.getElementById("messageModal");
       const modal = new window.bootstrap.Modal(modalEl);
@@ -110,6 +127,7 @@ export default function Signup() {
       const reData = await result.json();
       //console.log(reData.data);
       if (reData.data !== "No Data Found") {
+        setIsBusi(false);
         setErrorMessage(`Mail ID ${mail} already exist. Try with another mail`);
         new window.bootstrap.Modal(
           document.getElementById("messageModal")
@@ -117,10 +135,12 @@ export default function Signup() {
         return;
       }
     } catch (e) {
+      setIsBusi(false);
       console.log(e);
       return;
     }
     if (password.length < 6) {
+      setIsBusi(false);
       setErrorMessage("Minimum Password Length 6");
       const modalEl = document.getElementById("messageModal");
       const modal = new window.bootstrap.Modal(modalEl);
@@ -128,6 +148,7 @@ export default function Signup() {
       return;
     }
     if (!validatePassword(password)) {
+      setIsBusi(false);
       setErrorMessage("Password Must Have At Least A Letter & A Digit");
       const modalEl = document.getElementById("messageModal");
       const modal = new window.bootstrap.Modal(modalEl);
@@ -161,7 +182,7 @@ export default function Signup() {
         headers: customHeaders,
         body: JSON.stringify(data),
       });
-
+      setIsBusi(false);
       if (!result.ok) {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
@@ -177,6 +198,7 @@ export default function Signup() {
       console.log(reData);
       navigate("/home");
     } catch (error) {
+      setIsBusi(false);
       console.log(error);
     }
     // console.log(mnemonic);
@@ -271,7 +293,7 @@ export default function Signup() {
                   <p className="mb-8 text-small">Password</p>
                   <div className="box-auth-pass">
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       required
                       placeholder="Your password"
                       className="password-field"
@@ -280,22 +302,41 @@ export default function Signup() {
                       maxLength={15}
                     />
                     <span className="show-pass">
-                      <i className="icon-view"></i>
-                      <i className="icon-view-hide"></i>
+                      <i
+                        className="icon-view"
+                        onClick={() => setShowPassword(!showPassword)}
+                      ></i>
+                      <i
+                        className="icon-view-hide"
+                        onClick={() => setShowPassword(!showPassword)}
+                      ></i>
                     </span>
                   </div>
                 </label>
               </fieldset>
-
-              <button className="mt-20" onClick={onSignup}>
-                Login
-              </button>
-              <p className="mt-20 text-center text-small">
-                Already have a Account? &ensp;{" "}
-                <label className="text-white" onClick={onLogin}>
-                  Login
-                </label>
-              </p>
+              <div className="inner-bar d-flex justify-content-center">
+                {isBusi ? (
+                  <img
+                    src="/images/wait.gif"
+                    alt="Loading.."
+                    className="img_wait"
+                  />
+                ) : (
+                  <button className="mt-20" onClick={onSignup}>
+                    Signup
+                  </button>
+                )}
+              </div>
+              {isBusi ? (
+                ""
+              ) : (
+                <p className="mt-20 text-center text-small">
+                  Already have a Account? &ensp;{" "}
+                  <label className="text-white" onClick={onLogin}>
+                    Login
+                  </label>
+                </p>
+              )}
             </div>
             <p className="mt-20 text-center text-small">
               © 2025 Trade Buddy. tradebuddy.biz

@@ -8,6 +8,9 @@ export default function Menu() {
   function onProfileClick() {
     navigate("/profile");
   }
+  function onBuyPackage() {
+    navigate("/packages");
+  }
   function logout() {
     const modalEl = document.getElementById("logout");
     const modal =
@@ -60,14 +63,13 @@ export default function Menu() {
             <h5>Buy Package</h5>
             <ul className="mt-16 grid-3 gap-12">
               <li>
-                <a
-                  href="/"
-                  className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
-                  data-bs-toggle="modal"
+                <p
+                  className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center text-white"
+                  onClick={onBuyPackage}
                 >
                   <i className="icon icon-book"></i>
                   Subscribe
-                </a>
+                </p>
               </li>
               <li>
                 <a

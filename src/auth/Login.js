@@ -15,6 +15,8 @@ export default function Login() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isBusi, setIsBusi] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const validateEmail = (email) => {
     // simple regex for email check
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,7 +31,9 @@ export default function Login() {
     modal.hide();
   };
   async function onLogin() {
+    setIsBusi(true);
     if (!validateEmail(mail)) {
+      setIsBusi(false);
       setErrorMessage("Invalid Email");
       const modalEl = document.getElementById("messageModal");
       const modal = new window.bootstrap.Modal(modalEl);
@@ -42,6 +46,7 @@ export default function Login() {
       const reData = await result.json();
       //console.log(reData.data);
       if (reData.data === "No Data Found") {
+        setIsBusi(false);
         setErrorMessage(`Mail ID ${mail} not exist. Try with correct mail`);
         new window.bootstrap.Modal(
           document.getElementById("messageModal")
@@ -49,10 +54,12 @@ export default function Login() {
         return;
       }
     } catch (e) {
+      setIsBusi(false);
       console.log(e);
       return;
     }
     if (password.length < 6) {
+      setIsBusi(false);
       setErrorMessage("Minimum Password Length 6");
       const modalEl = document.getElementById("messageModal");
       const modal = new window.bootstrap.Modal(modalEl);
@@ -65,12 +72,14 @@ export default function Login() {
       const reData = await result.json();
 
       if (reData.data[0].CODES === "NO") {
+        setIsBusi(false);
         setErrorMessage("Invalid Credintial");
         new window.bootstrap.Modal(
           document.getElementById("messageModal")
         ).show();
         return;
       } else {
+        setIsBusi(false);
         const uid = reData.data[0].CODES;
         const name = reData.data[0].NAMES;
         const publicKey = reData.data[0].publicKey;
@@ -85,6 +94,7 @@ export default function Login() {
         navigate("/home");
       }
     } catch (e) {
+      setIsBusi(false);
       console.log(e);
       return;
     }
@@ -135,7 +145,7 @@ export default function Login() {
                   <p className="mb-8 text-small">Password</p>
                   <div className="box-auth-pass">
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       required
                       placeholder="Your password"
                       className="password-field"
@@ -150,24 +160,48 @@ export default function Login() {
                       maxLength={15}
                     />
                     <span className="show-pass">
-                      <i className="icon-view"></i>
-                      <i className="icon-view-hide"></i>
+                      <i
+                        className="icon-view"
+                        onClick={() => setShowPassword(!showPassword)}
+                      ></i>
+                      <i
+                        className="icon-view-hide"
+                        onClick={() => setShowPassword(!showPassword)}
+                      ></i>
                     </span>
                   </div>
                 </label>
               </fieldset>
-              <a href="/" className="text-secondary">
-                Forgot Password?
-              </a>
-              <button className="mt-20" onClick={onLogin}>
-                Login
-              </button>
-              <p className="mt-20 text-center text-small">
-                Create a new Account? &ensp;{" "}
-                <label className="text-white" onClick={onNewAccount}>
-                  Sign up
-                </label>
-              </p>
+              {isBusi ? (
+                ""
+              ) : (
+                <a href="/" className="text-secondary">
+                  Forgot Password?
+                </a>
+              )}
+              <div className="inner-bar d-flex justify-content-center">
+                {isBusi ? (
+                  <img
+                    src="/images/magnify.gif"
+                    alt="Loading.."
+                    className="img_wait"
+                  />
+                ) : (
+                  <button className="mt-20" onClick={onLogin}>
+                    Login
+                  </button>
+                )}
+              </div>
+              {isBusi ? (
+                ""
+              ) : (
+                <p className="mt-20 text-center text-small">
+                  Create a new Account? &ensp;{" "}
+                  <label className="text-white" onClick={onNewAccount}>
+                    Sign up
+                  </label>
+                </p>
+              )}
             </div>
             <p className="mt-20 text-center text-small">
               © 2025 Trade Buddy. tradebuddy.biz

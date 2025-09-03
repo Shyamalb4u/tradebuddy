@@ -645,6 +645,9 @@ select {
 .bg-menuDark {
   background-color: var(--menuDark);
 }
+.bg-white {
+  background-color: var(--white);
+}
 
 .bg-icon1 {
   background-color: rgba(131, 88, 255, 0.1);
