@@ -28,7 +28,7 @@ export default function PackageList() {
                 onClick={onBuy}
               >
                 <label
-                  for="radio1"
+                  htmlFor="radio1"
                   className="content d-flex justify-content-between"
                 >
                   <div className="flex-grow-1">
@@ -47,10 +47,10 @@ export default function PackageList() {
                 </label>
               </p>
             </li>
-            <li class="mt-12">
-              <a
-                href="recharge.html"
+            <li className="mt-12">
+              <p
                 className="accent-box item-check-style3 bg-menuDark"
+                onClick={onBuy}
               >
                 <label
                   for="radio1"
@@ -70,12 +70,12 @@ export default function PackageList() {
                     <span className="text-small">to</span> <br></br>950
                   </h5>
                 </label>
-              </a>
+              </p>
             </li>
-            <li class="mt-12">
-              <a
-                href="recharge.html"
+            <li className="mt-12">
+              <p
                 className="accent-box item-check-style3 bg-menuDark"
+                onClick={onBuy}
               >
                 <label
                   for="radio1"
@@ -95,13 +95,9 @@ export default function PackageList() {
                     <span className="text-small">and</span> <br></br>Above
                   </h5>
                 </label>
-              </a>
+              </p>
             </li>
           </ul>
-          <p className="mt-4">
-            ** Please read our policy before buy our packages and follow our
-            instruction strictly before trade.
-          </p>
         </div>
       </div>
     </>

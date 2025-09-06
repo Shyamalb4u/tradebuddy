@@ -1,8 +1,8 @@
 import { useMemo, useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ScratchCard from "../components/ScratchCard";
 import { ethers } from "ethers";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -30,6 +30,7 @@ export default function Home() {
   const address = userInfo.publicKey;
   const uid = userInfo.id;
   const referLink = "https://tradebuddy.biz/#/signup?s=" + uid;
+  const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
 
   const [usdtBalance, setUsdtBalance] = useState("0");
   const [nativeBalance, setNativeBalance] = useState("0");
@@ -46,6 +47,25 @@ export default function Home() {
   );
   const latestCallId = useRef(0);
   ///////////
+  const sendMessage = async () => {
+    const buyUpurl = api_link + "sendfcmMsg";
+    const data = {};
+    const customHeaders = {
+      "Content-Type": "application/json",
+    };
+    try {
+      const result = await fetch(buyUpurl, {
+        method: "POST",
+        headers: customHeaders,
+        body: JSON.stringify(data),
+      });
+      if (!result.ok) {
+        throw new Error(`HTTP error! status: ${result.status}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const requestPermissionAndSubscribe = async () => {
     try {
       // 1️⃣ Request browser notification permission
@@ -78,12 +98,26 @@ export default function Home() {
         setStatus("Subscribed ✅");
         console.log("FCM Token:", currentToken);
 
-        // ✅ Optional: send token to backend
-        // await fetch("/api/save-fcm-token", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({ token: currentToken }),
-        // });
+        const buyUpurl = api_link + "fcmToken";
+        const data = {
+          publicKey: address.trim(),
+          token: currentToken,
+        };
+        const customHeaders = {
+          "Content-Type": "application/json",
+        };
+        try {
+          const result = await fetch(buyUpurl, {
+            method: "POST",
+            headers: customHeaders,
+            body: JSON.stringify(data),
+          });
+          if (!result.ok) {
+            throw new Error(`HTTP error! status: ${result.status}`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         setStatus("No registration token available ❌");
       }
@@ -173,7 +207,16 @@ export default function Home() {
   useEffect(() => {
     async function setupNotifications() {
       try {
+        // if (Notification.permission === "default") {
         await requestPermissionAndSubscribe();
+        // }
+        onMessage(messaging, (payload) => {
+          console.log("Message received in foreground: ", payload);
+          new Notification(payload.notification.title, {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+          });
+        });
       } catch (err) {
         console.error("Notification setup failed:", err);
       }
@@ -281,7 +324,7 @@ export default function Home() {
                   <span className="box-round bg-surface d-flex justify-content-center align-items-center">
                     <i className="icon icon-exchange"></i>
                   </span>
-                  Daily Tips
+                  DR Tips
                 </p>
               </li>
             </ul>
@@ -290,6 +333,7 @@ export default function Home() {
         <div className="bg-menuDark tf-container">
           <div className="pt-12 pb-12 mt-4">
             <h5>Market</h5>
+            <p onClick={sendMessage}>Send Msg</p>
             <div
               className="swiper tf-swiper swiper-wrapper-r mt-16"
               data-space-between="16"
@@ -418,13 +462,13 @@ export default function Home() {
             </a>
           </li>
           <li>
-            <a href="earn.html">
+            <Link to="/tips">
               <i className="icon icon-earn"></i>
-              Earn
-            </a>
+              Tips
+            </Link>
           </li>
           <li>
-            <a href="wallet.html">
+            <a href="#">
               <i className="icon icon-wallet"></i>
               Withdraw
             </a>
@@ -483,12 +527,12 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div class="modal fade action-sheet" id="referPage">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
+      <div className="modal fade action-sheet" id="referPage">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
               <h5>Refer Your Friends</h5>
-              <span class="icon-cancel" data-bs-dismiss="modal"></span>
+              <span className="icon-cancel" data-bs-dismiss="modal"></span>
             </div>
             <div
               className="accent-box  bg-white"

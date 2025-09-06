@@ -1418,6 +1418,9 @@ select {
 .coin-btn.decrease {
   background-color: var(--red);
 }
+.coin-btn.pending {
+  background-color: var(--remake);
+}
 
 input[type="text"].ip-style2 {
   padding: 12px;

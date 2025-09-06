@@ -102,7 +102,7 @@ export default function SendToken() {
       if (!amount || Number(amount) <= 0) throw new Error("Invalid amount");
 
       const tx = await wallet.sendTransaction({
-        toAddress,
+        to: toAddress,
         value: ethers.parseEther(amount.toString()),
       });
       setTxHash(tx.hash);
@@ -184,6 +184,7 @@ export default function SendToken() {
             </div>
             <div className="mt-12">
               <input
+                id="amount"
                 type="number"
                 placeholder="Please enter quantity"
                 className="bg-surface"
@@ -194,6 +195,7 @@ export default function SendToken() {
             </div>
             <div className="mt-12">
               <input
+                id="address"
                 type="text"
                 placeholder="To Address"
                 className="bg-surface"

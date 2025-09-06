@@ -1,15 +1,19 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Menu() {
   const navigate = useNavigate();
-  function onBackClick() {
-    navigate("/home");
-  }
-  function onProfileClick() {
-    navigate("/profile");
-  }
-  function onBuyPackage() {
-    navigate("/packages");
+  // function onBackClick() {
+  //   navigate("/home");
+  // }
+  // function onProfileClick() {
+  //   navigate("/profile");
+  // }
+  // function onBuyPackage() {
+  //   navigate("/packages");
+  // }
+  function onNavigate(pth) {
+    //console.log("/" + pth);
+    navigate("/" + pth);
   }
   function logout() {
     const modalEl = document.getElementById("logout");
@@ -23,7 +27,7 @@ export default function Menu() {
   return (
     <>
       <div className="header fixed-top bg-surface d-flex justify-content-center align-items-center">
-        <p className="left back-btn" onClick={onBackClick}>
+        <p className="left back-btn" onClick={() => onNavigate("home")}>
           <i className="icon-left-btn"></i>
         </p>
         <span
@@ -40,7 +44,7 @@ export default function Menu() {
       <div className="pt-45 pb-16 mt-16">
         <div className="bg-menuDark tf-container">
           <p
-            onClick={onProfileClick}
+            onClick={() => onNavigate("profile")}
             className="pt-12 pb-12 mt-4 d-flex justify-content-between align-items-center"
           >
             <div className="box-account">
@@ -65,20 +69,29 @@ export default function Menu() {
               <li>
                 <p
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center text-white"
-                  onClick={onBuyPackage}
+                  onClick={() => onNavigate("packages")}
                 >
                   <i className="icon icon-book"></i>
                   Subscribe
                 </p>
               </li>
               <li>
-                <a
-                  href="/"
-                  className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
+                <p
+                  className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center text-white"
+                  onClick={() => onNavigate("my-packages")}
                 >
                   <i className="icon icon-grid-nine"></i>
                   My Packages
-                </a>
+                </p>
+              </li>
+              <li>
+                <Link
+                  to="/send-tips"
+                  className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
+                >
+                  <i className="icon icon-way"></i>
+                  Send Tips
+                </Link>
               </li>
             </ul>
           </div>

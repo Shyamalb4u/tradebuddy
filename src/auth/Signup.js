@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -7,6 +7,8 @@ import { ethers } from "ethers";
 const POLYGON_RPC = "https://polygon-rpc.com";
 
 export default function Signup() {
+  const nameRef = useRef(null);
+  const referRef = useRef(null);
   try {
     const userInfo = JSON.parse(localStorage.getItem("user"));
     const address = userInfo.publicKey;
@@ -37,9 +39,21 @@ export default function Signup() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const uid = searchParams.get("s");
-  console.log(uid);
+
   useEffect(() => {
     setRefer(uid);
+  }, []);
+  useEffect(() => {
+    if (uid === null) {
+      console.log("no refer");
+      if (referRef.current) {
+        referRef.current.focus();
+      }
+    } else {
+      if (nameRef.current) {
+        nameRef.current.focus();
+      }
+    }
   }, []);
 
   ////////////////////
@@ -235,6 +249,7 @@ export default function Signup() {
                 <label className="label-ip">
                   <p className="mb-8 text-small"> Referral ID</p>
                   <input
+                    ref={referRef}
                     type="text"
                     value={refer}
                     onChange={(e) => setRefer(e.target.value)}
@@ -246,10 +261,11 @@ export default function Signup() {
                 <label className="label-ip">
                   <p className="mb-8 text-small"> Name</p>
                   <input
+                    ref={nameRef}
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    maxLength={25}
+                    maxLength={35}
                   />
                 </label>
               </fieldset>
@@ -265,7 +281,7 @@ export default function Signup() {
                       required: true,
                       name: "phone",
                       autoFocus: true,
-                      maxLength: 16,
+                      maxLength: 20,
                     }}
                   />
                   {/* <input

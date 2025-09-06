@@ -10,6 +10,9 @@ import Profile from "./account/Profile";
 import ChangePassword from "./account/ChangePassword";
 import PackageList from "./account/PackageList";
 import BuyPackage from "./account/BuyPackage";
+import MyPackages from "./account/MyPackages";
+import Tips from "./account/Tips";
+import SendTips from "./account/SendTips";
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
         <Route path="/password" element={<ChangePassword />} />
         <Route path="/packages" element={<PackageList />} />
         <Route path="/buy-package" element={<BuyPackage />} />
+        <Route path="/my-packages" element={<MyPackages />} />
+        <Route path="/tips" element={<Tips />} />
+        <Route path="/send-tips" element={<SendTips />} />
       </Routes>
     </HashRouter>
   );

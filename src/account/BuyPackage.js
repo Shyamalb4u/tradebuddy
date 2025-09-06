@@ -10,6 +10,7 @@ const erc20Abi = [
   "function transfer(address to, uint256 amount) returns (bool)",
 ];
 export default function BuyPackage() {
+  const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
   const navigate = useNavigate();
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const address = userInfo.publicKey;
@@ -21,9 +22,11 @@ export default function BuyPackage() {
   const [txHash, setTxHash] = useState("");
   const [error, setError] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [decimals, setDecimals] = useState(6);
   const [rpcUrl, setRpcUrl] = useState(POLYGON_RPC);
   const [copied, setCopied] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const provider = useMemo(() => new ethers.JsonRpcProvider(rpcUrl), [rpcUrl]);
   const usdtContract = useMemo(
     () => new ethers.Contract(USDT_ADDRESS, erc20Abi, provider),
@@ -50,20 +53,72 @@ export default function BuyPackage() {
     setError("");
     setTxHash("");
     setIsSending(true);
-    console.log("Here");
+    setIsError(false);
     const to = toAddress;
     try {
       const w = ethers.Wallet.fromPhrase(passKey.trim());
       const wallet = w.connect(provider);
-      if (!wallet) throw new Error("Import or create a wallet first");
-      if (!ethers.isAddress(to)) throw new Error("Invalid recipient address");
-      if (!amount || Number(amount) <= 0) throw new Error("Invalid amount");
+      if (!wallet) {
+        setIsSending(false);
+        setErrorMessage("Your Wallet Is NValid");
+        const modalEl = document.getElementById("messageModal");
+        const modal = new window.bootstrap.Modal(modalEl);
+        modal.show();
+        return;
+      }
+      if (!ethers.isAddress(to)) {
+        setIsSending(false);
+        setErrorMessage("In Valid Receipient Address");
+        const modalEl = document.getElementById("messageModal");
+        const modal = new window.bootstrap.Modal(modalEl);
+        modal.show();
+        return;
+      }
+      if (!amount || Number(amount) < 1) {
+        setIsSending(false);
+        setErrorMessage("Minimum Subscription USDT 50");
+        const modalEl = document.getElementById("messageModal");
+        const modal = new window.bootstrap.Modal(modalEl);
+        modal.show();
+        return;
+      }
+      // if (Number(amount) % 50 > 0) {
+      //   setIsSending(false);
+      //   setErrorMessage("Subscription Multiple Of 50");
+      //   const modalEl = document.getElementById("messageModal");
+      //   const modal = new window.bootstrap.Modal(modalEl);
+      //   modal.show();
+      //   return;
+      // }
       const contractWithSigner = usdtContract.connect(wallet);
       const amountUnits = ethers.parseUnits(amount.toString(), decimals);
       const tx = await contractWithSigner.transfer(to, amountUnits);
       setTxHash(tx.hash);
       await tx.wait();
-      // refresh balance
+      // Send To Database
+      const buyUpurl = api_link + "booking";
+      const data = {
+        publicKey: address.trim(),
+        amt: amount,
+        txn: tx.hash,
+        mode: "Pending",
+      };
+      const customHeaders = {
+        "Content-Type": "application/json",
+      };
+      try {
+        const result = await fetch(buyUpurl, {
+          method: "POST",
+          headers: customHeaders,
+          body: JSON.stringify(data),
+        });
+        if (!result.ok) {
+          throw new Error(`HTTP error! status: ${result.status}`);
+        }
+      } catch (error) {
+        setIsSending(false);
+        console.log(error);
+      }
       // fetchUSDTBalance();
       setIsSending(false);
       const modalEl = document.getElementById("success");
@@ -71,8 +126,9 @@ export default function BuyPackage() {
       modal.show();
     } catch (error) {
       setError(error.message || String(error));
-      console.log(error);
+      //console.log(error);
       setIsSending(false);
+      setIsError(true);
     } finally {
       setIsSending(false);
     }
@@ -80,15 +136,21 @@ export default function BuyPackage() {
   }
 
   function onBackClick() {
-    navigate("/home");
+    navigate("/packages");
   }
   function onSuccesClick() {
     hideModal();
-    navigate("/home");
+    navigate("/my-packages");
   }
   const hideModal = () => {
-    console.log("hide clicked");
     const modalEl = document.getElementById("success");
+    const modal =
+      window.bootstrap.Modal.getInstance(modalEl) ||
+      new window.bootstrap.Modal(modalEl);
+    modal.hide();
+  };
+  const hideErrorModal = () => {
+    const modalEl = document.getElementById("messageModal");
     const modal =
       window.bootstrap.Modal.getInstance(modalEl) ||
       new window.bootstrap.Modal(modalEl);
@@ -120,6 +182,7 @@ export default function BuyPackage() {
             </div>
             <div className="mt-12">
               <input
+                id="amount"
                 type="number"
                 placeholder="Subscription Amount"
                 className="bg-surface"
@@ -132,9 +195,31 @@ export default function BuyPackage() {
           <h6 className="mt-20">Note : </h6>
           <p>
             1. Minimum Subscription USDT 50. <br></br>
-            2. Subscription only multiple of 50.
+            2. Subscription only multiple of 50.<br></br>
+            3. POL is required for transaction fee.
           </p>
         </div>
+        {isError ? (
+          <div
+            style={{
+              marginTop: 25,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src="/images/error.png"
+              alt="img"
+              className="img"
+              style={{ width: 80 }}
+            />
+            <p className="text-red">Low Balance</p>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className="menubar-footer footer-fixed bg-surface">
@@ -190,6 +275,27 @@ export default function BuyPackage() {
             <p className="tf-btn lg primary mt-40" onClick={onSuccesClick}>
               Done
             </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="modal fade modalCenter" id="messageModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content modal-sm">
+            <div className="p-16 line-bt">
+              <h4 className="text-center">Error</h4>
+              <p className="mt-12 text-center text-large text-red">
+                {errorMessage}
+              </p>
+            </div>
+            <div className="grid-1">
+              <p
+                className="line-r text-center text-button fw-6 p-10"
+                onClick={hideErrorModal}
+              >
+                OK
+              </p>
+            </div>
           </div>
         </div>
       </div>
