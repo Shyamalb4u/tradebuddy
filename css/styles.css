@@ -697,7 +697,10 @@ select {
   font-size: 14px;
   line-height: 18px;
 }
-
+.text-zsmall {
+  font-size: 12px;
+  line-height: 18px;
+}
 .text-xsmall {
   font-size: 11px;
   line-height: 13px;
