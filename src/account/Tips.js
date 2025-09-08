@@ -1,6 +1,31 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 export default function Tips() {
   const navigate = useNavigate();
+  const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
+  const userInfo = JSON.parse(localStorage.getItem("user"));
+  const address = userInfo.publicKey;
+  const [tipsData, setTipsData] = useState([]);
+
+  useEffect(() => {
+    async function getTipsData() {
+      try {
+        let url = api_link + "getTips/" + address;
+        const result = await fetch(url);
+        const reData = await result.json();
+
+        if (reData.data !== "No Data") {
+          setTipsData(reData.data);
+        }
+      } catch (e) {
+        console.log(e);
+        return;
+      }
+    }
+    getTipsData();
+  }, []);
+
   function onBackClick() {
     navigate("/home");
   }
@@ -18,36 +43,22 @@ export default function Tips() {
               <h3 className="d-inline-block">Trading Tips</h3>
             </div>
           </div>
-          <div className="accent-box-v5 bg-menuDark active mb-8">
-            <span className="icon-box bg-icon1">
-              <i className="icon-book"></i>
-            </span>
-            <div className="mt-12">
-              <a href="#" className="text-small">
-                Set up your wallet
-              </a>
-              <p className="mt-4">
-                Click Create and set up your collection. Add social links, a
-                description, profile & banner images, and set a secondary sales
-                fee.
-              </p>
+
+          {tipsData.map((data) => (
+            <div className="accent-box-v5 bg-menuDark active mb-8">
+              <div className="content d-flex justify-content-between">
+                <span className="icon-box bg-icon1 text-primary">
+                  <i className="icon-earn"></i>
+                </span>
+                <p className="text-white">{data.dates}</p>
+              </div>
+
+              <div className="mt-12">
+                <p className="text-small text-white">{data.heading}</p>
+                <p className="mt-4">{data.details}</p>
+              </div>
             </div>
-          </div>
-          <div className="accent-box-v5 bg-menuDark active mb-8">
-            <span className="icon-box bg-icon1">
-              <i className="icon-book"></i>
-            </span>
-            <div className="mt-12">
-              <a href="#" className="text-small">
-                Set up your wallet
-              </a>
-              <p className="mt-4">
-                Click Create and set up your collection. Add social links, a
-                description, profile & banner images, and set a secondary sales
-                fee.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </>

@@ -13,6 +13,8 @@ import BuyPackage from "./account/BuyPackage";
 import MyPackages from "./account/MyPackages";
 import Tips from "./account/Tips";
 import SendTips from "./account/SendTips";
+import DRtips from "./account/DRtips";
+import Withdraw from "./account/Withdraw";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
         <Route path="/my-packages" element={<MyPackages />} />
         <Route path="/tips" element={<Tips />} />
         <Route path="/send-tips" element={<SendTips />} />
+        <Route path="/dr-tips" element={<DRtips />} />
+        <Route path="/withdraw" element={<Withdraw />} />
       </Routes>
     </HashRouter>
   );

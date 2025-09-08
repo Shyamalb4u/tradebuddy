@@ -1,9 +1,10 @@
 import { useMemo, useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ScratchCard from "../components/ScratchCard";
+
 import { ethers } from "ethers";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
+import DailyReward from "./DailyReward";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBcjdUxwJGVNf6dMIMuIQV8csRv3OsqoV8",
@@ -40,6 +41,7 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [token, setToken] = useState(null);
   const [status, setStatus] = useState("Click to enable notifications");
+  const [balanceData, setBalanceData] = useState([]);
 
   const usdtContract = useMemo(
     () => new ethers.Contract(USDT_ADDRESS, erc20Abi, provider),
@@ -47,25 +49,7 @@ export default function Home() {
   );
   const latestCallId = useRef(0);
   ///////////
-  const sendMessage = async () => {
-    const buyUpurl = api_link + "sendfcmMsg";
-    const data = {};
-    const customHeaders = {
-      "Content-Type": "application/json",
-    };
-    try {
-      const result = await fetch(buyUpurl, {
-        method: "POST",
-        headers: customHeaders,
-        body: JSON.stringify(data),
-      });
-      if (!result.ok) {
-        throw new Error(`HTTP error! status: ${result.status}`);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const requestPermissionAndSubscribe = async () => {
     try {
       // 1️⃣ Request browser notification permission
@@ -130,7 +114,10 @@ export default function Home() {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // reset after 2s
+      setTimeout(() => {
+        setCopied(false);
+        alert("Coppied");
+      }, 2000); // reset after 2s
     } catch (err) {
       console.error("Failed to copy: ", err);
     }
@@ -181,7 +168,7 @@ export default function Home() {
 
         // update only if still active & latest call
         if (active && callId === latestCallId.current) {
-          setUsdtBalance(formatted);
+          setUsdtBalance(formatted.toFixed(4));
         }
 
         // Native token balance
@@ -224,6 +211,21 @@ export default function Home() {
 
     setupNotifications();
   }, []);
+  useEffect(() => {
+    async function getBalance() {
+      try {
+        let url = api_link + "getDashboardBalance/" + address;
+        const result = await fetch(url);
+        const reData = await result.json();
+        setBalanceData(reData.data);
+        console.log(reData.data[0].STATUS);
+      } catch (e) {
+        console.log(e);
+        return;
+      }
+    }
+    getBalance();
+  }, []);
   function onMenuClick() {
     navigate("/menu");
   }
@@ -235,6 +237,9 @@ export default function Home() {
   }
   function onBuyPackage() {
     navigate("/packages");
+  }
+  function onDRtips() {
+    navigate("/dr-tips");
   }
   function logout() {
     const modalEl = document.getElementById("logout");
@@ -266,7 +271,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="pt-68 pb-80">
+      <div className="pt-68 pb-10">
         <div className="bg-menuDark tf-container">
           <div className="pt-12 pb-12 mt-4">
             <h5>
@@ -320,7 +325,10 @@ export default function Home() {
                 </p>
               </li>
               <li>
-                <p className="tf-list-item d-flex flex-column gap-8 align-items-center menu-text">
+                <p
+                  className="tf-list-item d-flex flex-column gap-8 align-items-center menu-text"
+                  onClick={onDRtips}
+                >
                   <span className="box-round bg-surface d-flex justify-content-center align-items-center">
                     <i className="icon icon-exchange"></i>
                   </span>
@@ -333,7 +341,7 @@ export default function Home() {
         <div className="bg-menuDark tf-container">
           <div className="pt-12 pb-12 mt-4">
             <h5>Market</h5>
-            <p onClick={sendMessage}>Send Msg</p>
+            {/* <p onClick={sendMessage}>Send Msg</p> */}
             <div
               className="swiper tf-swiper swiper-wrapper-r mt-16"
               data-space-between="16"
@@ -341,112 +349,104 @@ export default function Home() {
               data-tablet="2.8"
               data-desktop="3"
             >
-              <div
-                className="swiper-wrapper"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div className="swiper-slide" style={{ width: 110 }}>
-                  <a href="exchange-market.html" className="coin-box d-block">
-                    <div className="coin-logo">
-                      <img
-                        src="/images/coin/market-1.jpg"
-                        alt="img"
-                        className="logo"
-                      />
-                      <div className="title">
-                        <p>Bitcoin</p>
-                        <span>BTC</span>
-                      </div>
-                    </div>
-                    <div className="mt-8 mb-8 coin-chart">
-                      <div id="line-chart-1"></div>
-                    </div>
-                    <div className="coin-price d-flex justify-content-between">
-                      <span>$30780</span>
-                      <span className="text-primary d-flex align-items-center gap-2">
-                        <i className="icon-select-up"></i> 11,75%
-                      </span>
-                    </div>
-                    <div className="blur bg1"></div>
-                  </a>
-                </div>
-                <div className="swiper-slide" style={{ width: 110 }}>
-                  <a href="exchange-market.html" className="coin-box d-block">
-                    <div className="coin-logo">
-                      <img
-                        src="/images/coin/market-3.jpg"
-                        alt="img"
-                        className="logo"
-                      />
-                      <div className="title">
-                        <p>Binance</p>
-                        <span>BNB</span>
-                      </div>
-                    </div>
-                    <div className="mt-8 mb-8 coin-chart">
-                      <div id="line-chart-2"></div>
-                    </div>
-                    <div className="coin-price d-flex justify-content-between">
-                      <span>$270.10</span>
-                      <span className="text-primary d-flex align-items-center gap-2">
-                        <i className="icon-select-up"></i> 21,59%
-                      </span>
-                    </div>
-                    <div className="blur bg2"></div>
-                  </a>
-                </div>
+              {balanceData.length > 0 ? (
                 <div
-                  className="swiper-slide"
-                  style={{ width: 110, marginRight: 15 }}
+                  className="swiper-wrapper"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  <a href="exchange-market.html" className="coin-box d-block">
-                    <div className="coin-logo">
-                      <img
-                        src="/images/coin/coin-3.jpg"
-                        alt="img"
-                        className="logo"
-                      />
-                      <div className="title">
-                        <p>Ethereum</p>
-                        <span>ETH</span>
+                  <div className="swiper-slide" style={{ width: 105 }}>
+                    <a href="#" className="coin-box d-block">
+                      <div className="coin-logo">
+                        <img
+                          src="/images/reward.png"
+                          alt="img"
+                          className="logo"
+                        />
+                        <div className="title">
+                          <p>Reward</p>
+                          <span>Total</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="mt-8 mb-8 coin-chart">
-                      <div id="line-chart-3"></div>
-                    </div>
-                    <div className="coin-price d-flex justify-content-between">
-                      <span>$1478.10</span>
-                      <span className="text-primary d-flex align-items-center gap-2">
-                        <i className="icon-select-up"></i> 4,75%
-                      </span>
-                    </div>
-                    <div className="blur bg3"></div>
-                  </a>
+                      <div className="mt-8 mb-8 coin-chart">
+                        <div id="line-chart-1"></div>
+                      </div>
+                      <div className="coin-price d-flex justify-content-between">
+                        <span>${balanceData[0].totInc}</span>
+                        <span className="text-primary d-flex align-items-center gap-2">
+                          <i className="icon-select-up"></i>{" "}
+                          {balanceData[0].incPer}%
+                        </span>
+                      </div>
+                      <div className="blur bg1"></div>
+                    </a>
+                  </div>
+                  <div className="swiper-slide" style={{ width: 105 }}>
+                    <a href="#" className="coin-box d-block">
+                      <div className="coin-logo">
+                        <img
+                          src="/images/withdraw.png"
+                          alt="img"
+                          className="logo"
+                        />
+                        <div className="title">
+                          <p>Withdraw</p>
+                          <span>Total</span>
+                        </div>
+                      </div>
+                      <div className="mt-8 mb-8 coin-chart">
+                        <div id="line-chart-2"></div>
+                      </div>
+                      <div className="coin-price d-flex justify-content-between">
+                        <span>${balanceData[0].totWith}</span>
+                        <span className="text-primary d-flex align-items-center gap-2">
+                          <i className="icon-select-up"></i>{" "}
+                          {balanceData[0].withPer}%
+                        </span>
+                      </div>
+                      <div className="blur bg2"></div>
+                    </a>
+                  </div>
+                  <div
+                    className="swiper-slide"
+                    style={{ width: 105, marginRight: 15 }}
+                  >
+                    <a href="#" className="coin-box d-block">
+                      <div className="coin-logo">
+                        <img
+                          src="/images/balance.png"
+                          alt="img"
+                          className="logo"
+                        />
+                        <div className="title">
+                          <p>Balance</p>
+                          <span>Net</span>
+                        </div>
+                      </div>
+                      <div className="mt-8 mb-8 coin-chart">
+                        <div id="line-chart-3"></div>
+                      </div>
+                      <div className="coin-price d-flex justify-content-between">
+                        <span>${balanceData[0].balance}</span>
+                        <span className="text-primary d-flex align-items-center gap-2">
+                          <i className="icon-select-up"></i>{" "}
+                          {balanceData[0].balancePer}%
+                        </span>
+                      </div>
+                      <div className="blur bg3"></div>
+                    </a>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                "Loading..."
+              )}
             </div>
           </div>
         </div>
-
-        <ScratchCard
-          width={360}
-          height={200}
-          coverColor="#c5c5c5"
-          // coverImage="https://picsum.photos/360/200" // optional
-          radius={22}
-          percentToFinish={45}
-          onComplete={(pct) => console.log("Revealed!", pct + "%")}
-        >
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: 24, fontWeight: 700 }}>🎉 ₹500 OFF</div>
-            <div style={{ marginTop: 6, opacity: 0.8 }}>Code: SAVE500</div>
-          </div>
-        </ScratchCard>
       </div>
-
+      <DailyReward />
       <div className="menubar-footer footer-fixed">
         <ul className="inner-bar">
           <li className="active">
@@ -463,15 +463,15 @@ export default function Home() {
           </li>
           <li>
             <Link to="/tips">
-              <i className="icon icon-earn"></i>
+              <i className="icon icon-earn text-white"></i>
               Tips
             </Link>
           </li>
           <li>
-            <a href="#">
-              <i className="icon icon-wallet"></i>
+            <Link to="/withdraw">
+              <i className="icon icon-wallet text-white"></i>
               Withdraw
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -545,6 +545,7 @@ export default function Home() {
               >
                 <button
                   className="btn-login"
+                  data-bs-dismiss="modal"
                   onClick={() => copyToClipboard(referLink)}
                 >
                   Copy
