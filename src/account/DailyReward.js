@@ -41,7 +41,7 @@ export default function DailyReward() {
   }, [address]);
   return (
     <>
-      <div className="pb-16">
+      <div className="pb-16 mb-16">
         <div className="tf-container">
           <div className="mt-4 text-center">
             <div className="mt-8">

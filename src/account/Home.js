@@ -340,7 +340,7 @@ export default function Home() {
         </div>
         <div className="bg-menuDark tf-container">
           <div className="pt-12 pb-12 mt-4">
-            <h5>Market</h5>
+            <h5>Statistics</h5>
             {/* <p onClick={sendMessage}>Send Msg</p> */}
             <div
               className="swiper tf-swiper swiper-wrapper-r mt-16"

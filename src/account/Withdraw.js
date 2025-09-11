@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Withdraw() {
@@ -8,7 +8,6 @@ export default function Withdraw() {
   const address = userInfo.publicKey;
 
   const [balance, setBalance] = useState("0");
-  const [error, setError] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -31,9 +30,7 @@ export default function Withdraw() {
   }, [address]);
 
   async function sendUsdt() {
-    setError("");
     setIsSending(true);
-    setIsError(false);
 
     try {
       if (!amount || Number(amount) < 25) {
@@ -54,39 +51,36 @@ export default function Withdraw() {
       }
 
       // Send To Database
-      //   const buyUpurl = api_link + "booking";
-      //   const data = {
-      //     publicKey: address.trim(),
-      //     amt: amount,
-      //     txn: tx.hash,
-      //     mode: "Pending",
-      //   };
-      //   const customHeaders = {
-      //     "Content-Type": "application/json",
-      //   };
-      //   try {
-      //     const result = await fetch(buyUpurl, {
-      //       method: "POST",
-      //       headers: customHeaders,
-      //       body: JSON.stringify(data),
-      //     });
-      //     if (!result.ok) {
-      //       throw new Error(`HTTP error! status: ${result.status}`);
-      //     }
-      //   } catch (error) {
-      //     setIsSending(false);
-      //     console.log(error);
-      //   }
+      const buyUpurl = api_link + "withdrawal";
+      const data = {
+        publicKey: address.trim(),
+        amount: amount,
+      };
+      const customHeaders = {
+        "Content-Type": "application/json",
+      };
+      try {
+        const result = await fetch(buyUpurl, {
+          method: "POST",
+          headers: customHeaders,
+          body: JSON.stringify(data),
+        });
+        if (!result.ok) {
+          throw new Error(`HTTP error! status: ${result.status}`);
+        }
+      } catch (error) {
+        setIsSending(false);
+        console.log(error);
+      }
       // fetchUSDTBalance();
       setIsSending(false);
       const modalEl = document.getElementById("success");
       const modal = new window.bootstrap.Modal(modalEl);
       modal.show();
     } catch (error) {
-      setError(error.message || String(error));
+      setIsError(true);
       //console.log(error);
       setIsSending(false);
-      setIsError(true);
     } finally {
       setIsSending(false);
     }
@@ -164,7 +158,10 @@ export default function Withdraw() {
               className="img"
               style={{ width: 80 }}
             />
-            <p className="text-red">Low Balance</p>
+            <p className="text-red">
+              Withdrawal Failed!<br></br>Possible Error:<br></br> 1. You have
+              withdraw today.<br></br>2. Low balance
+            </p>
           </div>
         ) : (
           ""

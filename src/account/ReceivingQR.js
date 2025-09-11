@@ -54,7 +54,10 @@ export default function ReceivingQR() {
       <div className="menubar-footer footer-fixed bg-surface">
         <div className="inner-bar d-flex justify-content-center">
           <p className="tf-btn lg primary" onClick={handleShare}>
-            Share Via Whats App
+            Share{" "}
+            <span>
+              <i className="icon icon-share"></i>{" "}
+            </span>
           </p>
         </div>
       </div>

@@ -58,7 +58,7 @@ export default function PackageList() {
                 >
                   <div className="flex-grow-1">
                     <h5 className="mt-8 d-flex align-items-center gap-4">
-                      <i className="icon-wallet icon"></i> Essential
+                      <i className="icon-wallet icon"></i> Pro
                     </h5>
                     <span className="text-small">
                       Daily <b>1-5</b> tips, 1 Portfolio Reward, Community
@@ -83,7 +83,7 @@ export default function PackageList() {
                 >
                   <div className="flex-grow-1">
                     <h5 className="mt-8 d-flex align-items-center gap-4">
-                      <i className="icon-wallet icon"></i> Essential
+                      <i className="icon-wallet icon"></i> Elite
                     </h5>
                     <span className="text-small">
                       Daily <b>1-10</b> tips, 1 Portfolio Reward, Community

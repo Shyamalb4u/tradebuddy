@@ -1,16 +1,36 @@
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Menu() {
+  const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
   const navigate = useNavigate();
-  // function onBackClick() {
-  //   navigate("/home");
-  // }
-  // function onProfileClick() {
-  //   navigate("/profile");
-  // }
-  // function onBuyPackage() {
-  //   navigate("/packages");
-  // }
+  const userInfo = JSON.parse(localStorage.getItem("user"));
+  const name = userInfo.name;
+  const uid = userInfo.id;
+
+  const [active, setIsActive] = useState("Inactive");
+  const [admin, setAdmin] = useState("NO");
+
+  useEffect(() => {
+    async function getProfile() {
+      console.log(uid);
+      try {
+        let url = api_link + "getUser/" + uid;
+        const result = await fetch(url);
+        const reData = await result.json();
+
+        if (reData.data !== "No Data") {
+          setIsActive(reData.data[0].ACTIVATION_STATUS);
+          setAdmin(reData.data[0].IS_ADMIN);
+        }
+      } catch (e) {
+        console.log(e);
+        return;
+      }
+    }
+    getProfile();
+  }, [uid]);
+
   function onNavigate(pth) {
     //console.log("/" + pth);
     navigate("/" + pth);
@@ -30,13 +50,16 @@ export default function Menu() {
         <p className="left back-btn" onClick={() => onNavigate("home")}>
           <i className="icon-left-btn"></i>
         </p>
-        <span
+        <p className="right" onClick={() => onNavigate("home")}>
+          <i className="icon-home2 fs-20"></i>
+        </p>
+        {/* <span
           className="right text-button mt-8 d-inline-block text-red fw-6"
           data-bs-toggle="modal"
           data-bs-target="#logout"
         >
           Log out
-        </span>
+        </span> */}
         {/* <a href="/" className="right text-secondary">
           <i className="icon-close"></i>
         </a> */}
@@ -50,11 +73,17 @@ export default function Menu() {
             <div className="box-account">
               <img src="/logo192.png" alt="img" className="avt" />
               <div className="info">
-                <h5>User Name</h5>
+                <h5>{name}</h5>
                 <p className="text-small text-secondary mt-8 mb-8">
                   Profile and settings
                 </p>
-                <p className="tag-xs style-2 round-2 red text-white">Guest</p>
+                {active === "Inactive" ? (
+                  <p className="tag-xs style-2 round-2 red text-white">Guest</p>
+                ) : (
+                  <p className="tag-xs style-2 round-2 primary text-white">
+                    User
+                  </p>
+                )}
               </div>
             </div>
             <span className="arr-right">
@@ -84,15 +113,19 @@ export default function Menu() {
                   My Packages
                 </p>
               </li>
-              <li>
-                <Link
-                  to="/send-tips"
-                  className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
-                >
-                  <i className="icon icon-way"></i>
-                  Send Tips
-                </Link>
-              </li>
+              {admin === "YES" ? (
+                <li>
+                  <Link
+                    to="/send-tips"
+                    className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
+                  >
+                    <i className="icon icon-way"></i>
+                    Send Tips
+                  </Link>
+                </li>
+              ) : (
+                ""
+              )}
             </ul>
           </div>
         </div>
