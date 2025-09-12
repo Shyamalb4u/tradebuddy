@@ -177,13 +177,13 @@ export default function Menu() {
                 </Link>
               </li>
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/upline-bonus"
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
                 >
                   <i className="icon icon-fileText"></i>
                   Upline Bonus
-                </a>
+                </Link>
               </li>
               <li>
                 <a

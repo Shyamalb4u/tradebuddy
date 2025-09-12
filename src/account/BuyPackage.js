@@ -41,7 +41,7 @@ export default function BuyPackage() {
       try {
         const raw = await usdtContract.balanceOf(address);
         const formatted = ethers.formatUnits(raw, decimals);
-        setBalance(formatted);
+        setBalance(Number(formatted).toFixed(4));
       } catch (e) {
         console.error("fetchBalance error:", e);
       }

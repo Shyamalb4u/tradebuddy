@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function CommunityReward() {
+export default function UplineBonus() {
   const navigate = useNavigate();
   const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
   const userInfo = JSON.parse(localStorage.getItem("user"));
@@ -12,7 +12,7 @@ export default function CommunityReward() {
   useEffect(() => {
     async function getPackages() {
       try {
-        let url = api_link + "getIncomeStatement/" + address + "/Level";
+        let url = api_link + "getIncomeStatement/" + address + "/Upline";
         const result = await fetch(url);
         const reData = await result.json();
         setPackageData(reData.data);
@@ -44,10 +44,10 @@ export default function CommunityReward() {
         <div className="tf-container">
           <div className="mt-32 text-center">
             <div className="mt-8">
-              <h3 className="d-inline-block">Community Reward</h3>
+              <h3 className="d-inline-block">Upline Bonus</h3>
             </div>
             <span className="text-small">
-              Total Reward : ${total.toFixed(4)}
+              Total Bonus : ${total.toFixed(4)}
             </span>
           </div>
           <div className="mt-20">

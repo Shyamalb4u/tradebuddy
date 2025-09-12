@@ -286,10 +286,14 @@ export default function Home() {
                 <i className="icon-select-down"></i>
               </a>
             </h5>
-            <h1 className="mt-16">
-              <a href="/">${usdtBalance}</a>
-              <span className="text-small">POL Balance : {nativeBalance}</span>
-            </h1>
+
+            <div
+              className="content d-flex justify-content-between"
+              style={{ marginTop: 16 }}
+            >
+              <h1>${usdtBalance}</h1>
+              <h3>POL {nativeBalance}</h3>
+            </div>
             <ul className="mt-16 grid-4 m--16">
               <li>
                 <p

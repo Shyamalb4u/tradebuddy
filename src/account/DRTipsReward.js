@@ -46,7 +46,9 @@ export default function RDTipsReward() {
             <div className="mt-8">
               <h3 className="d-inline-block">DR Tips Reward</h3>
             </div>
-            <span className="text-small">Total Reward : ${total}</span>
+            <span className="text-small">
+              Total Reward : ${total.toFixed(4)}
+            </span>
           </div>
           <div className="mt-20">
             <div className="tab-content mt-16 mb-16">

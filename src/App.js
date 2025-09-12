@@ -20,6 +20,7 @@ import TotalCommunity from "./account/TotalCommunity";
 import RDTipsReward from "./account/DRTipsReward";
 import CommunityReward from "./account/CommunityReward";
 import ClassRoom from "./account/ClassRoom";
+import UplineBonus from "./account/UplineBonus";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/dr-reward" element={<RDTipsReward />} />
         <Route path="/level-reward" element={<CommunityReward />} />
         <Route path="/class-room" element={<ClassRoom />} />
+        <Route path="/upline-bonus" element={<UplineBonus />} />
       </Routes>
     </HashRouter>
   );
