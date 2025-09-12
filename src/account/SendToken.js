@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 
@@ -30,7 +30,7 @@ export default function SendToken() {
     () => new ethers.Contract(USDT_ADDRESS, erc20Abi, provider),
     [provider]
   );
-
+  const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
   //////////////////
   useEffect(() => {
     setToken("USDT");
@@ -63,6 +63,7 @@ export default function SendToken() {
     setError("");
     setTxHash("");
     setIsSending(true);
+    console.log("Sending");
     const to = toAddress;
     try {
       const w = ethers.Wallet.fromPhrase(passKey.trim());
@@ -75,8 +76,33 @@ export default function SendToken() {
       const tx = await contractWithSigner.transfer(to, amountUnits);
       setTxHash(tx.hash);
       await tx.wait();
-      // refresh balance
-      // fetchUSDTBalance();
+      // Send To Database
+      const buyUpurl = api_link + "transfer";
+      const data = {
+        publicKey: address.trim(),
+        amt: amount,
+        txn: tx.hash,
+        details: toAddress,
+        symbol: token,
+        status: "Pending",
+      };
+      const customHeaders = {
+        "Content-Type": "application/json",
+      };
+      try {
+        const result = await fetch(buyUpurl, {
+          method: "POST",
+          headers: customHeaders,
+          body: JSON.stringify(data),
+        });
+        if (!result.ok) {
+          throw new Error(`HTTP error! status: ${result.status}`);
+        }
+      } catch (error) {
+        setIsSending(false);
+        console.log(error);
+      }
+
       setIsSending(false);
       const modalEl = document.getElementById("success");
       const modal = new window.bootstrap.Modal(modalEl);
