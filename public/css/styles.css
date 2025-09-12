@@ -387,6 +387,19 @@ button {
   display: flex;
   align-items: center;
 }
+.btn-share {
+  width: 120px;
+  padding: 8px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+  color: var(--white);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
 .btn-copy {
   width: 70px;
   padding: 8px 30px;

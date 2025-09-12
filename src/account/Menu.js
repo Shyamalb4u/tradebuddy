@@ -134,22 +134,22 @@ export default function Menu() {
             <h5>Community</h5>
             <ul className="mt-16 grid-3 gap-12">
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/direct"
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-center"
                 >
                   <i className="icon icon-globe"></i>
                   Direct Community
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/community"
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-center"
                 >
                   <i className="icon icon-graph"></i>
                   Network Community
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -159,22 +159,22 @@ export default function Menu() {
             <h5>Reward & Bonus</h5>
             <ul className="mt-16 grid-3 gap-12">
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/dr-reward"
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
                 >
                   <i className="icon icon-bank"></i>
-                  Portfolio Reward
-                </a>
+                  DR Tips Reward
+                </Link>
               </li>
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/level-reward"
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
                 >
                   <i className="icon icon-fileText"></i>
                   Community Reward
-                </a>
+                </Link>
               </li>
               <li>
                 <a
@@ -244,15 +244,15 @@ export default function Menu() {
         </div>
 
         <div className="bg-menuDark tf-container">
-          <a
-            href="/"
+          <Link
+            to="/class-room"
             className="pt-12 pb-12 mt-4 d-flex justify-content-between align-items-center"
           >
             <h5>Class Room</h5>
             <span className="arr-right">
               <i className="icon-arr-right"></i>
             </span>
-          </a>
+          </Link>
         </div>
         <div className="modal fade modalCenter" id="logout">
           <div className="modal-dialog modal-dialog-centered" role="document">

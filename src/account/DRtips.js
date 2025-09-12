@@ -9,7 +9,7 @@ export default function DRtips() {
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const address = userInfo.publicKey;
   const [amt, setAmt] = useState(0);
-  const [tipToken, setTipToken] = useState("");
+  const [tipToken, setTipToken] = useState("Loading");
   const [isSunday, setIsSunday] = useState(false);
 
   useEffect(() => {
@@ -91,7 +91,11 @@ export default function DRtips() {
             </div>
           </div>
           <div className="mt-20 d-flex justify-content-center align-items-center">
-            {amt > 0 ? (
+            {tipToken === "Loading" ? (
+              <p className="accent-box item-check-style3 bg-menuDark">
+                <h6 className="text-center text-remark">Loading ..... </h6>
+              </p>
+            ) : amt > 0 ? (
               <ScratchCard
                 width={280}
                 height={150}
@@ -131,6 +135,13 @@ export default function DRtips() {
                 <h5 className="text-center text-remark">👌Happy To See </h5>
                 <h5 className="text-center text-primary">
                   Your Reward Credited
+                </h5>
+              </p>
+            ) : tipToken === "just" ? (
+              <p className="accent-box item-check-style3 bg-menuDark">
+                <h5 className="text-center text-remark">👌Just Activated </h5>
+                <h5 className="text-center text-primary">
+                  Your Reward Will Apear From Tomorrow
                 </h5>
               </p>
             ) : (

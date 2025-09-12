@@ -15,6 +15,11 @@ import Tips from "./account/Tips";
 import SendTips from "./account/SendTips";
 import DRtips from "./account/DRtips";
 import Withdraw from "./account/Withdraw";
+import DirectCommunity from "./account/DirectCommunity";
+import TotalCommunity from "./account/TotalCommunity";
+import RDTipsReward from "./account/DRTipsReward";
+import CommunityReward from "./account/CommunityReward";
+import ClassRoom from "./account/ClassRoom";
 
 function App() {
   return (
@@ -36,6 +41,11 @@ function App() {
         <Route path="/send-tips" element={<SendTips />} />
         <Route path="/dr-tips" element={<DRtips />} />
         <Route path="/withdraw" element={<Withdraw />} />
+        <Route path="/direct" element={<DirectCommunity />} />
+        <Route path="/community" element={<TotalCommunity />} />
+        <Route path="/dr-reward" element={<RDTipsReward />} />
+        <Route path="/level-reward" element={<CommunityReward />} />
+        <Route path="/class-room" element={<ClassRoom />} />
       </Routes>
     </HashRouter>
   );

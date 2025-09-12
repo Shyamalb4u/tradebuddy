@@ -129,6 +129,8 @@ export default function DailyReward() {
           </div>
         </div>
       </div>
+      <br></br>
+      <br></br>
     </>
   );
 }

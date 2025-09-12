@@ -114,10 +114,10 @@ export default function Home() {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-        alert("Coppied");
-      }, 2000); // reset after 2s
+      // setTimeout(() => {
+      //   setCopied(false);
+      alert("Coppied");
+      // }, 2000); // reset after 2s
     } catch (err) {
       console.error("Failed to copy: ", err);
     }
@@ -127,8 +127,8 @@ export default function Home() {
       try {
         await navigator.share({
           title: "This a invitation to join Trade Buddy, your crypto assistant",
-          text: `Click The link : ${referLink}`,
-          url: window.location.href, // optional: share page link too
+          text: `This a invitation to join Trade Buddy, your crypto assistant. Click The link : ${referLink}`,
+          //url: window.location.href, // optional: share page link too
         });
         console.log("Shared successfully!");
       } catch (err) {
@@ -168,7 +168,7 @@ export default function Home() {
 
         // update only if still active & latest call
         if (active && callId === latestCallId.current) {
-          setUsdtBalance(formatted.toFixed(4));
+          setUsdtBalance(formatted);
         }
 
         // Native token balance
@@ -544,14 +544,20 @@ export default function Home() {
                 style={{ marginTop: 30 }}
               >
                 <button
-                  className="btn-login"
+                  className="btn-share"
                   data-bs-dismiss="modal"
                   onClick={() => copyToClipboard(referLink)}
                 >
-                  Copy
+                  Copy &nbsp;
+                  <span>
+                    <i className="icon icon-copy"></i>{" "}
+                  </span>
                 </button>
-                <button className="btn-signin" onClick={() => handleShare()}>
-                  Share
+                <button className="btn-share" onClick={() => handleShare()}>
+                  Share &nbsp;
+                  <span>
+                    <i className="icon icon-share"></i>{" "}
+                  </span>
                 </button>
               </div>
             </div>
