@@ -14,7 +14,7 @@ export default function ChangePassword() {
   const [messageHeader, setMessageHeader] = useState("");
   //////////////////
   const hideModal = () => {
-    console.log("hide clicked");
+    //console.log("hide clicked");
     const modalEl = document.getElementById("messageModal");
     const modal =
       window.bootstrap.Modal.getInstance(modalEl) ||
@@ -66,7 +66,7 @@ export default function ChangePassword() {
         throw new Error(`HTTP error! status: ${result.status}`);
       } else {
         const reData = await result.json();
-        console.log(reData);
+        //console.log(reData);
         setIsSaving(false);
         setErrorMessage("Password Change Successful");
         setMessageHeader("Success");
@@ -75,7 +75,7 @@ export default function ChangePassword() {
         modal.show();
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error!");
     }
   }
   function onSusscess() {

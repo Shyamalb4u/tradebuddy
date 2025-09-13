@@ -24,7 +24,7 @@ export default function DirectCommunity() {
           setTotal(totalAmount);
         }
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }

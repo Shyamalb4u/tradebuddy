@@ -19,7 +19,7 @@ export default function Tips() {
           setTipsData(reData.data);
         }
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }
@@ -44,21 +44,23 @@ export default function Tips() {
             </div>
           </div>
 
-          {tipsData.map((data) => (
-            <div className="accent-box-v5 bg-menuDark active mb-8">
-              <div className="content d-flex justify-content-between">
-                <span className="icon-box bg-icon1 text-primary">
-                  <i className="icon-earn"></i>
-                </span>
-                <p className="text-white">{data.dates}</p>
-              </div>
+          {tipsData
+            ? tipsData.map((data) => (
+                <div className="accent-box-v5 bg-menuDark active mb-8">
+                  <div className="content d-flex justify-content-between">
+                    <span className="icon-box bg-icon1 text-primary">
+                      <i className="icon-earn"></i>
+                    </span>
+                    <p className="text-white">{data.dates}</p>
+                  </div>
 
-              <div className="mt-12">
-                <p className="text-small text-white">{data.heading}</p>
-                <p className="mt-4">{data.details}</p>
-              </div>
-            </div>
-          ))}
+                  <div className="mt-12">
+                    <p className="text-small text-white">{data.heading}</p>
+                    <p className="mt-4">{data.details}</p>
+                  </div>
+                </div>
+              ))
+            : ""}
         </div>
       </div>
     </>

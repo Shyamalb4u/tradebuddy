@@ -19,7 +19,7 @@ export default function MyPackages() {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      alert("Txn. Coppied");
+      // alert("Txn. Coppied");
       // setTimeout(() => setCopied(false), 2000); // reset after 2s
     } catch (err) {
       console.error("Failed to copy: ", err);
@@ -61,7 +61,7 @@ export default function MyPackages() {
                     throw new Error(`HTTP error! status: ${result.status}`);
                   }
                 } catch (error) {
-                  console.log(error);
+                  console.log("Error!");
                 }
               } else if (receipt.status === 0) {
                 const buyUpurl = api_link + "booking";
@@ -84,16 +84,16 @@ export default function MyPackages() {
                     throw new Error(`HTTP error! status: ${result.status}`);
                   }
                 } catch (error) {
-                  console.log(error);
+                  console.log("Error!");
                 }
               }
             } catch (e) {
-              console.log(e);
+              console.log("Error!");
             }
           }
         }
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }
@@ -107,7 +107,7 @@ export default function MyPackages() {
         const reData = await result.json();
         setPackageData(reData.data);
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }
@@ -174,15 +174,14 @@ export default function MyPackages() {
                   <ul>
                     {packageData.map((data, index) => (
                       <li key={data.Activation_sl} className="line-bt">
-                        <a
-                          href="choose-payment.html"
-                          className="coin-item style-2 gap-12"
-                        >
-                          <span className="text-small">{index + 1}</span>
+                        <p className="coin-item style-2 gap-12">
+                          <span className="text-small text-white">
+                            {index + 1}
+                          </span>
                           <div className="content">
                             <div className="title">
                               <p className="mb-4 text-button">
-                                USDT{" "}
+                                <span className="text-white">USDT </span>
                                 <span className="text-warning">
                                   {data.AMOUNT}
                                 </span>
@@ -203,11 +202,15 @@ export default function MyPackages() {
                               </span>
                             </div>
                             <div className="d-flex align-items-center gap-12">
-                              <span className="text-small">{data.DATES}</span>
-                              <span className="coin-btn increase">Success</span>
+                              <span className="text-small text-white">
+                                {data.DATES}
+                              </span>
+                              <span className="coin-btn increase text-white">
+                                Success
+                              </span>
                             </div>
                           </div>
-                        </a>
+                        </p>
                       </li>
                     ))}
                   </ul>

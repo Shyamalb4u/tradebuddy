@@ -23,7 +23,7 @@ export default function Login() {
     return regex.test(email);
   };
   const hideModal = () => {
-    console.log("hide clicked");
+    // console.log("hide clicked");
     const modalEl = document.getElementById("messageModal");
     const modal =
       window.bootstrap.Modal.getInstance(modalEl) ||
@@ -55,7 +55,7 @@ export default function Login() {
       }
     } catch (e) {
       setIsBusi(false);
-      console.log(e);
+      console.log("Error!");
       return;
     }
     if (password.length < 6) {
@@ -95,7 +95,7 @@ export default function Login() {
       }
     } catch (e) {
       setIsBusi(false);
-      console.log(e);
+      console.log("Error");
       return;
     }
   }

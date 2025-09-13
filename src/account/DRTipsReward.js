@@ -24,7 +24,7 @@ export default function RDTipsReward() {
           setTotal(totalAmount);
         }
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }

@@ -7,7 +7,7 @@ export default function DailyReward() {
 
   /////////////////////////////
   useEffect(() => {
-    console.log("Rendering DailyReward");
+    // console.log("Rendering DailyReward");
     try {
       const userStr = localStorage.getItem("user");
       if (userStr) {
@@ -15,14 +15,14 @@ export default function DailyReward() {
         setAddress(userInfo?.publicKey || null);
       }
     } catch (e) {
-      console.error("Failed to parse localStorage user:", e);
+      console.error("Failed to parse localStorage user:");
     }
   }, []);
 
   useEffect(() => {
-    console.log(address);
+    // console.log(address);
     if (!address) {
-      console.log("No address found, skipping fetch");
+      //console.log("No address found, skipping fetch");
       return;
     }
     async function getData() {
@@ -31,9 +31,9 @@ export default function DailyReward() {
         const result = await fetch(url);
         const reData = await result.json();
         setDailyData(reData.data);
-        console.log(reData.data[0].STATUS);
+        // console.log(reData.data[0].STATUS);
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }

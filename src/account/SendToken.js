@@ -41,7 +41,7 @@ export default function SendToken() {
         const formatted = ethers.formatUnits(raw, decimals);
         setBalance(formatted);
       } catch (e) {
-        console.error("fetchBalance error:", e);
+        console.error("fetchBalance error:");
       }
     }
     fetchBalance();
@@ -63,7 +63,7 @@ export default function SendToken() {
     setError("");
     setTxHash("");
     setIsSending(true);
-    console.log("Sending");
+
     const to = toAddress;
     try {
       const w = ethers.Wallet.fromPhrase(passKey.trim());
@@ -100,7 +100,7 @@ export default function SendToken() {
         }
       } catch (error) {
         setIsSending(false);
-        console.log(error);
+        console.log("Error!");
       }
 
       setIsSending(false);
@@ -158,7 +158,7 @@ export default function SendToken() {
         }
       } catch (error) {
         setIsSending(false);
-        console.log(error);
+        console.log("Error!");
       }
       setIsSending(false);
       const modalEl = document.getElementById("success");
@@ -179,7 +179,7 @@ export default function SendToken() {
     navigate("/home");
   }
   const hideModal = () => {
-    console.log("hide clicked");
+    //console.log("hide clicked");
     const modalEl = document.getElementById("success");
     const modal =
       window.bootstrap.Modal.getInstance(modalEl) ||

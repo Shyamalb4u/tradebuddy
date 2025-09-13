@@ -13,7 +13,7 @@ export default function Menu() {
 
   useEffect(() => {
     async function getProfile() {
-      console.log(uid);
+      // console.log(uid);
       try {
         let url = api_link + "getUser/" + uid;
         const result = await fetch(url);
@@ -24,7 +24,7 @@ export default function Menu() {
           setAdmin(reData.data[0].IS_ADMIN);
         }
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }

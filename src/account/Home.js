@@ -80,7 +80,7 @@ export default function Home() {
       if (currentToken) {
         setToken(currentToken);
         setStatus("Subscribed ✅");
-        console.log("FCM Token:", currentToken);
+        // console.log("FCM Token:", currentToken);
 
         const buyUpurl = api_link + "fcmToken";
         const data = {
@@ -100,13 +100,13 @@ export default function Home() {
             throw new Error(`HTTP error! status: ${result.status}`);
           }
         } catch (error) {
-          console.log(error);
+          console.log("error");
         }
       } else {
         setStatus("No registration token available ❌");
       }
     } catch (err) {
-      console.error("FCM subscription failed:", err);
+      console.error("FCM subscription failed:");
       setStatus("Subscription failed ❌");
     }
   };
@@ -179,7 +179,7 @@ export default function Home() {
           setNativeBalance(formattedNative);
         }
       } catch (e) {
-        console.error("fetchBalance error:", e);
+        console.error("fetchBalance error:");
       }
     }
 
@@ -218,9 +218,9 @@ export default function Home() {
         const result = await fetch(url);
         const reData = await result.json();
         setBalanceData(reData.data);
-        console.log(reData.data[0].STATUS);
+        // console.log(reData.data[0].STATUS);
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }

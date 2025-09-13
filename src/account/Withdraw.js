@@ -22,7 +22,7 @@ export default function Withdraw() {
         const reData = await result.json();
         setBalance(reData.data[0].balance);
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }
@@ -70,7 +70,7 @@ export default function Withdraw() {
         }
       } catch (error) {
         setIsSending(false);
-        console.log(error);
+        console.log("Error!");
       }
       // fetchUSDTBalance();
       setIsSending(false);

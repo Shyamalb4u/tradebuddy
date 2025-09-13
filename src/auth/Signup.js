@@ -65,7 +65,7 @@ export default function Signup() {
   //   setWallet(w.connect(provider));
   // }
   const hideModal = () => {
-    console.log("hide clicked");
+    //console.log("hide clicked");
     const modalEl = document.getElementById("messageModal");
     const modal =
       window.bootstrap.Modal.getInstance(modalEl) ||
@@ -107,7 +107,7 @@ export default function Signup() {
       }
     } catch (e) {
       setIsBusi(false);
-      console.log(e);
+      console.log("Error!");
       return;
     }
 
@@ -150,7 +150,7 @@ export default function Signup() {
       }
     } catch (e) {
       setIsBusi(false);
-      console.log(e);
+      console.log("Error!");
       return;
     }
     if (password.length < 6) {
@@ -209,11 +209,11 @@ export default function Signup() {
         phrases: mnemonic,
       };
       localStorage.setItem("user", JSON.stringify(user));
-      console.log(reData);
+      //console.log(reData);
       navigate("/home");
     } catch (error) {
       setIsBusi(false);
-      console.log(error);
+      console.log("Error!");
     }
     // console.log(mnemonic);
     // console.log(address);

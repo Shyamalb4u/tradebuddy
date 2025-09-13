@@ -43,7 +43,7 @@ export default function BuyPackage() {
         const formatted = ethers.formatUnits(raw, decimals);
         setBalance(Number(formatted).toFixed(4));
       } catch (e) {
-        console.error("fetchBalance error:", e);
+        console.error("fetchBalance error:");
       }
     }
     fetchBalance();
@@ -117,7 +117,7 @@ export default function BuyPackage() {
         }
       } catch (error) {
         setIsSending(false);
-        console.log(error);
+        console.log("Error!");
       }
       // fetchUSDTBalance();
       setIsSending(false);
@@ -162,7 +162,7 @@ export default function BuyPackage() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000); // reset after 2s
     } catch (err) {
-      console.error("Failed to copy: ", err);
+      console.error("Failed to copy: ");
     }
   };
   return (

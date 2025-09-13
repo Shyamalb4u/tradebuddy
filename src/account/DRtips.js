@@ -27,7 +27,7 @@ export default function DRtips() {
           }
         }
       } catch (e) {
-        console.log(e);
+        console.log("Error!");
         return;
       }
     }
@@ -37,7 +37,7 @@ export default function DRtips() {
     if (dayName === "Sunday") {
       setIsSunday(true);
     } else {
-      console.log("Called me");
+      //console.log("Called me");
       getTipsData();
     }
     return () => {
@@ -69,7 +69,7 @@ export default function DRtips() {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error!");
     }
   }
   function onBackClick() {

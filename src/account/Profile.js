@@ -30,7 +30,7 @@ export default function Profile() {
         setRegDate(format(new Date(reData.data[0].DATES), "dd-MMM-yyyy"));
       }
     } catch (e) {
-      console.log(e);
+      console.log("Error!");
       return;
     }
   }
