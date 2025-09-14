@@ -91,7 +91,12 @@ export default function DRtips() {
             </div>
           </div>
           <div className="mt-20 d-flex justify-content-center align-items-center">
-            {tipToken === "Loading" ? (
+            {isSunday ? (
+              <p className="accent-box item-check-style3 bg-menuDark">
+                <h5 className="text-center text-remark">😴 Opps! </h5>
+                <h5 className="text-center text-primary">Sunday Off</h5>
+              </p>
+            ) : tipToken === "Loading" ? (
               <p className="accent-box item-check-style3 bg-menuDark">
                 <h6 className="text-center text-remark">Loading ..... </h6>
               </p>
@@ -125,11 +130,6 @@ export default function DRtips() {
                   </div>
                 </div>
               </ScratchCard>
-            ) : isSunday ? (
-              <p className="accent-box item-check-style3 bg-menuDark">
-                <h5 className="text-center text-remark">😴 Opps! </h5>
-                <h5 className="text-center text-primary">Sunday Off</h5>
-              </p>
             ) : tipToken === "taken" ? (
               <p className="accent-box item-check-style3 bg-menuDark">
                 <h5 className="text-center text-remark">👌Happy To See </h5>
