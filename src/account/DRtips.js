@@ -34,7 +34,7 @@ export default function DRtips() {
     const dayName = new Date(Date.now()).toLocaleDateString("en-US", {
       weekday: "long",
     });
-    if (dayName === "Sunday") {
+    if (dayName === "Saturday") {
       setIsSunday(true);
     } else {
       //console.log("Called me");
