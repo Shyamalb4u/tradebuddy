@@ -57,7 +57,7 @@ export default function DailyReward() {
                       <li key={data.member_sl} className="line-bt">
                         <a href="#" className="coin-item style-2 gap-12">
                           <i
-                            class="icon-star text-warning"
+                            className="icon-star text-warning"
                             style={{ fontSize: 18 }}
                           ></i>
                           <div className="content">
