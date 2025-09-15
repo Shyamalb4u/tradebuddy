@@ -1159,7 +1159,7 @@ select {
 }
 
 .header {
-  height: 65px;
+  height: 55px;
   max-width: 1024px;
   margin: 0 auto;
 }
@@ -1244,6 +1244,10 @@ select {
 .tab-slide.trade-tab .nav-link.active {
   background-color: var(--surface);
   border-color: var(--surface);
+}
+.login-img {
+  width: 120px;
+  height: 33px;
 }
 
 .wallet-tabs {
