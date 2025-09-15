@@ -48,8 +48,8 @@ export default function Signup() {
     fetch("https://ipapi.co/json/")
       .then((res) => res.json())
       .then((data) => {
-        setCountry(data.country);
-        console.log(data.country);
+        setCountry(data.country.toLowerCase());
+        console.log(data.country.toLowerCase());
       }) // "IN", "US", etc.
       .catch((err) => console.error(err));
   }, []);
@@ -295,7 +295,7 @@ export default function Signup() {
                 <label className="label-ip">
                   <p className="mb-8 text-small"> Mobile No.</p>
                   <PhoneInput
-                    country={"in"} // default country India
+                    country={country} // default country India
                     value={mobile}
                     onChange={(val) => setMobile(val)}
                     inputClass="react-tel-input"
