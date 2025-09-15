@@ -33,9 +33,9 @@ export default function Withdraw() {
     setIsSending(true);
 
     try {
-      if (!amount || Number(amount) < 25) {
+      if (!amount || Number(amount) < 20) {
         setIsSending(false);
-        setErrorMessage("Minimum Withdrawal USDT 25");
+        setErrorMessage("Minimum Withdrawal USDT 20");
         const modalEl = document.getElementById("messageModal");
         const modal = new window.bootstrap.Modal(modalEl);
         modal.show();
@@ -138,7 +138,7 @@ export default function Withdraw() {
           </div>
           <h6 className="mt-20">Note : </h6>
           <p>
-            1. Minimum Withdrawal USDT 25. <br></br>
+            1. Minimum Withdrawal USDT 20. <br></br>
             2. Platform Fee 10%.
           </p>
         </div>

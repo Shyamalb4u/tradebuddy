@@ -38,12 +38,36 @@ export default function HomePage() {
   return (
     <>
       <div className="header fixed-top bg-surface trade-list-item p-2">
-        <button className="btn-login" onClick={() => navigate("/login")}>
+        <img
+          src="/images/login.png"
+          alt="img"
+          className="login-img"
+          onClick={() => navigate("/login")}
+        />
+        <img
+          src="/images/signup.png"
+          alt="img"
+          className="login-img"
+          onClick={() => navigate("/signup")}
+        />
+        {/* <p
+          className="login-border text-white"
+          onClick={() => navigate("/login")}
+        >
+          Login
+        </p> */}
+        {/* <p
+          className="tag-xs round-1 text-white"
+          onClick={() => navigate("/signup")}
+        >
+          Signup
+        </p> */}
+        {/* <button className="btn-login" onClick={() => navigate("/login")}>
           Login
         </button>
         <button className="btn-signin" onClick={() => navigate("/signup")}>
           Signup
-        </button>
+        </button> */}
       </div>
       <div className="pt-80 pb-20">
         <div className="tf-container">

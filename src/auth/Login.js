@@ -67,11 +67,13 @@ export default function Login() {
       return;
     }
     try {
-      let url = api_link + "login/" + mail + "/" + password;
+      let url =
+        api_link + "login/" + mail.trim() + "/" + encodeURIComponent(password);
+      console.log(url);
       const result = await fetch(url);
       const reData = await result.json();
 
-      if (reData.data[0].CODES === "NO") {
+      if (reData.data[0].CODES == "NO") {
         setIsBusi(false);
         setErrorMessage("Invalid Credintial");
         new window.bootstrap.Modal(

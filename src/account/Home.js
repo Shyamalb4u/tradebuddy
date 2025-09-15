@@ -218,7 +218,7 @@ export default function Home() {
         const result = await fetch(url);
         const reData = await result.json();
         setBalanceData(reData.data);
-        // console.log(reData.data[0].STATUS);
+        //console.log(reData.data[0].currentRank);
       } catch (e) {
         console.log("Error!");
         return;

@@ -95,6 +95,27 @@ export default function Signup() {
     const regex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
     return regex.test(password);
   };
+  async function sendMail(ids) {
+    const mailUrl = api_link + "sendMail";
+    const maildata = {
+      mail: mail.trim(),
+      uid: ids,
+      name: name.trim().replace("?", ""),
+      pass: password,
+    };
+    const customHeaders = {
+      "Content-Type": "application/json",
+    };
+    try {
+      const results = await fetch(mailUrl, {
+        method: "POST",
+        headers: customHeaders,
+        body: JSON.stringify(maildata),
+      });
+    } catch (err) {
+      console.log("Mail Error!", err);
+    }
+  }
   async function onSignup() {
     setIsBusi(true);
     //console.log(refer, name, mobile, mail, password);
@@ -218,12 +239,15 @@ export default function Signup() {
         headers: customHeaders,
         body: JSON.stringify(data),
       });
-      setIsBusi(false);
+
       if (!result.ok) {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
       const reData = await result.json();
       const uid = reData.data[0];
+      /////////////// Mail
+
+      await sendMail(uid);
       const user = {
         id: uid,
         name: name,
@@ -231,11 +255,12 @@ export default function Signup() {
         phrases: mnemonic,
       };
       localStorage.setItem("user", JSON.stringify(user));
+      setIsBusi(false);
       //console.log(reData);
       navigate("/home");
     } catch (error) {
       setIsBusi(false);
-      console.log("Error!");
+      console.log("Others Error!");
     }
     // console.log(mnemonic);
     // console.log(address);
