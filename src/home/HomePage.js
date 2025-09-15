@@ -1,6 +1,7 @@
 import { Accordion } from "react-bootstrap";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import TermsCondition from "./TermsCondition";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -256,7 +257,11 @@ export default function HomePage() {
             fast-paced world of crypto.
           </p>
           <div className="bg-surface trade-list-item p-2">
-            <a href="/" className="text-white">
+            <a
+              href="#termCondition"
+              className="text-white"
+              data-bs-toggle="modal"
+            >
               Terms & Condition
             </a>
             <a href="/" className="text-white">
@@ -268,6 +273,7 @@ export default function HomePage() {
           </p>
         </div>
       </div>
+      <TermsCondition />
     </>
   );
 }

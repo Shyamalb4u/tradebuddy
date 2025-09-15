@@ -56,7 +56,9 @@ export default function Tips() {
 
                   <div className="mt-12">
                     <p className="text-small text-white">{data.heading}</p>
-                    <p className="mt-4">{data.details}</p>
+                    <p className="mt-4" style={{ whiteSpace: "pre-line" }}>
+                      {data.details}
+                    </p>
                   </div>
                 </div>
               ))

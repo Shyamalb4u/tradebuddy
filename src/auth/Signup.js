@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { ethers } from "ethers";
+import TermsCondition from "../home/TermsCondition";
 
 const POLYGON_RPC = "https://polygon-rpc.com";
 
@@ -35,10 +36,23 @@ export default function Signup() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isBusi, setIsBusi] = useState(false);
+  const [accept, setAccept] = useState(false);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const uid = searchParams.get("s");
+
+  const [country, setCountry] = useState("");
+
+  useEffect(() => {
+    fetch("https://ipapi.co/json/")
+      .then((res) => res.json())
+      .then((data) => {
+        setCountry(data.country);
+        console.log(data.country);
+      }) // "IN", "US", etc.
+      .catch((err) => console.error(err));
+  }, []);
 
   useEffect(() => {
     setRefer(uid);
@@ -84,7 +98,15 @@ export default function Signup() {
   async function onSignup() {
     setIsBusi(true);
     //console.log(refer, name, mobile, mail, password);
-    if (refer.length < 6) {
+    if (!accept) {
+      setIsBusi(false);
+      setErrorMessage("You have to agree our Terms & Conditions");
+      const modalEl = document.getElementById("messageModal");
+      const modal = new window.bootstrap.Modal(modalEl);
+      modal.show();
+      return;
+    }
+    if (!refer || refer.length < 6) {
       setIsBusi(false);
       setErrorMessage("Invalid Referral ID");
       const modalEl = document.getElementById("messageModal");
@@ -111,7 +133,7 @@ export default function Signup() {
       return;
     }
 
-    if (name.length < 4) {
+    if (!name || name.length < 4) {
       setIsBusi(false);
       setErrorMessage("Enter Full Name");
       const modalEl = document.getElementById("messageModal");
@@ -119,7 +141,7 @@ export default function Signup() {
       modal.show();
       return;
     }
-    if (mobile.length < 10) {
+    if (!mobile || mobile.length < 10) {
       setIsBusi(false);
       setErrorMessage("Invalid Mobile No");
       const modalEl = document.getElementById("messageModal");
@@ -153,7 +175,7 @@ export default function Signup() {
       console.log("Error!");
       return;
     }
-    if (password.length < 6) {
+    if (!password || password.length < 6) {
       setIsBusi(false);
       setErrorMessage("Minimum Password Length 6");
       const modalEl = document.getElementById("messageModal");
@@ -251,7 +273,7 @@ export default function Signup() {
                   <input
                     ref={referRef}
                     type="text"
-                    value={refer}
+                    value={refer || ""}
                     onChange={(e) => setRefer(e.target.value)}
                     maxLength={6}
                   />
@@ -297,7 +319,7 @@ export default function Signup() {
                   <p className="mb-8 text-small"> Email</p>
                   <input
                     type="email"
-                    placeholder="Example@gmail"
+                    placeholder="example@gmail.com"
                     value={mail}
                     onChange={(e) => setMail(e.target.value)}
                     maxLength={30}
@@ -330,6 +352,23 @@ export default function Signup() {
                   </div>
                 </label>
               </fieldset>
+              <div className="d-flex justify-content-between align-items-center">
+                <input
+                  className="tf-switch-check"
+                  type="checkbox"
+                  value="checkbox"
+                  name="check"
+                  onClick={() => setAccept(true)}
+                ></input>
+                <a
+                  href="#termCondition"
+                  className="text-white"
+                  data-bs-toggle="modal"
+                >
+                  I Agree With Terms & Condition
+                </a>
+              </div>
+
               <div className="inner-bar d-flex justify-content-center">
                 {isBusi ? (
                   <img
@@ -382,6 +421,7 @@ export default function Signup() {
           </div>
         </div>
       </div>
+      <TermsCondition />
     </>
   );
 }
