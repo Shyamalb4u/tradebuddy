@@ -32,6 +32,8 @@ export default function ResetPassword() {
     return regex.test(email);
   };
   async function onReset() {
+    console.log(mail);
+    console.log(token);
     setIsBusi(true);
     if (!validateEmail(mail)) {
       setIsBusi(false);
@@ -162,9 +164,9 @@ export default function ResetPassword() {
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content modal-sm">
             <div className="p-16 line-bt">
-              <h4 className="text-center">Password Reset Link Sent</h4>
+              <h4 className="text-center">Password Changed</h4>
               <p className="mt-12 text-center text-small text-white">
-                Please Check Your Mail Inbox / Spam
+                Please login by new password
               </p>
             </div>
             <div className="grid-1">
