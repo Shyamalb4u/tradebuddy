@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 export default function ResetPassword() {
+  const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isBusi, setIsBusi] = useState(false);
@@ -23,6 +25,11 @@ export default function ResetPassword() {
   const validatePassword = (password) => {
     const regex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
     return regex.test(password);
+  };
+  const validateEmail = (email) => {
+    // simple regex for email check
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
   async function onReset() {
     setIsBusi(true);
