@@ -79,12 +79,23 @@ export default function ResetPassword() {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
       const reData = await result.json();
+      const status = reData.data[0];
+      if (status === "OK") {
+        setIsBusi(false);
+        new window.bootstrap.Modal(
+          document.getElementById("successModal")
+        ).show();
+      } else {
+        setIsBusi(false);
+        setErrorMessage("Time Expire Or Invalid Token");
+        const modalEl = document.getElementById("messageModal");
+        const modal = new window.bootstrap.Modal(modalEl);
+        modal.show();
+      }
     } catch (error) {
       setIsBusi(false);
       console.log(error.response?.data?.error || "Error on change password");
     }
-    setIsBusi(false);
-    new window.bootstrap.Modal(document.getElementById("successModal")).show();
   }
   return (
     <>
