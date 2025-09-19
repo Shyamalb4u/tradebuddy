@@ -45,7 +45,7 @@ export default function TotalCommunity() {
           <div className="mt-32 text-center">
             <div className="mt-8">
               <h3 className="d-inline-block">Network Community</h3>
-              <span className="text-xsmall">(10th Level)</span>
+              <span className="text-xsmall">(20th Level)</span>
             </div>
             <span className="text-small">Total Subscription : ${total}</span>
           </div>

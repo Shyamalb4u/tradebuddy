@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function PasswordRecover() {
   try {
     const userInfo = JSON.parse(localStorage.getItem("user"));
     const address = userInfo.publicKey;
@@ -13,24 +13,25 @@ export default function Login() {
   const navigate = useNavigate();
   const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
   const [mail, setMail] = useState("");
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isBusi, setIsBusi] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const validateEmail = (email) => {
     // simple regex for email check
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
-  const hideModal = () => {
+  const hideModal = (modalID) => {
     // console.log("hide clicked");
-    const modalEl = document.getElementById("messageModal");
+    const modalEl = document.getElementById(modalID);
     const modal =
       window.bootstrap.Modal.getInstance(modalEl) ||
       new window.bootstrap.Modal(modalEl);
     modal.hide();
+    if (modalID === "successModal") {
+      navigate("/login");
+    }
   };
-  async function onLogin() {
+  async function onReset() {
     setIsBusi(true);
     if (!validateEmail(mail)) {
       setIsBusi(false);
@@ -58,52 +59,32 @@ export default function Login() {
       console.log("Error!");
       return;
     }
-    if (password.length < 6) {
-      setIsBusi(false);
-      setErrorMessage("Minimum Password Length 6");
-      const modalEl = document.getElementById("messageModal");
-      const modal = new window.bootstrap.Modal(modalEl);
-      modal.show();
-      return;
-    }
+    const signUpurl = api_link + "passRecover";
+    const data = {
+      mail: mail.trim(),
+    };
+    const customHeaders = {
+      "Content-Type": "application/json",
+    };
     try {
-      let url =
-        api_link + "login/" + mail.trim() + "/" + encodeURIComponent(password);
-      console.log(url);
-      const result = await fetch(url);
-      const reData = await result.json();
+      const result = await fetch(signUpurl, {
+        method: "POST",
+        headers: customHeaders,
+        body: JSON.stringify(data),
+      });
 
-      if (reData.data[0].CODES == "NO") {
-        setIsBusi(false);
-        setErrorMessage("Invalid Credintial");
-        new window.bootstrap.Modal(
-          document.getElementById("messageModal")
-        ).show();
-        return;
-      } else {
-        setIsBusi(false);
-        const uid = reData.data[0].CODES;
-        const name = reData.data[0].NAMES;
-        const publicKey = reData.data[0].publicKey;
-        const phrases = reData.data[0].phrases;
-        const user = {
-          id: uid,
-          name: name,
-          publicKey: publicKey,
-          phrases: phrases,
-        };
-        localStorage.setItem("user", JSON.stringify(user));
-        navigate("/home");
+      if (!result.ok) {
+        throw new Error(`HTTP error! status: ${result.status}`);
       }
-    } catch (e) {
+      const reData = await result.json();
+    } catch (error) {
       setIsBusi(false);
-      console.log("Error");
-      return;
+      console.log("Others Error!");
     }
+    setIsBusi(false);
+    new window.bootstrap.Modal(document.getElementById("successModal")).show();
   }
-  function onNewAccount() {
-    navigate("/signup");
-  }
+
   return (
     <>
       <div className="header fixed-top bg-surface trade-list-item p-2">
@@ -121,12 +102,12 @@ export default function Login() {
                 alt="Trade Buddy Logo"
                 style={{ width: 220 }}
               />
-              <h3 className="mt-20">Login To Account</h3>
+              <h3 className="mt-20">Password Recovery</h3>
             </p>
             <div className="mt-16">
               <fieldset className="mt-16">
                 <label className="label-ip">
-                  <p className="mb-8 text-small"> Email</p>
+                  <p className="mb-8 text-small">Registered Email</p>
                   <input
                     type="text"
                     placeholder="example@gmail.com"
@@ -142,45 +123,7 @@ export default function Login() {
                   />
                 </label>
               </fieldset>
-              <fieldset className="mt-16 mb-12">
-                <label className="label-ip">
-                  <p className="mb-8 text-small">Password</p>
-                  <div className="box-auth-pass">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      placeholder="Your password"
-                      className="password-field"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (["'"].includes(e.key)) {
-                          e.preventDefault(); // block the character
-                          alert("Character not allowed!");
-                        }
-                      }}
-                      maxLength={15}
-                    />
-                    <span className="show-pass">
-                      <i
-                        className="icon-view"
-                        onClick={() => setShowPassword(!showPassword)}
-                      ></i>
-                      <i
-                        className="icon-view-hide"
-                        onClick={() => setShowPassword(!showPassword)}
-                      ></i>
-                    </span>
-                  </div>
-                </label>
-              </fieldset>
-              {isBusi ? (
-                ""
-              ) : (
-                <Link to="/forgot" className="text-secondary">
-                  Forgot Password?
-                </Link>
-              )}
+
               <div className="inner-bar d-flex justify-content-center">
                 {isBusi ? (
                   <img
@@ -189,25 +132,36 @@ export default function Login() {
                     className="img_wait"
                   />
                 ) : (
-                  <button className="mt-20" onClick={onLogin}>
-                    Login
+                  <button className="mt-20" onClick={onReset}>
+                    Submit
                   </button>
                 )}
               </div>
-              {isBusi ? (
-                ""
-              ) : (
-                <p className="mt-20 text-center text-small">
-                  Create a new Account? &ensp;{" "}
-                  <label className="text-white" onClick={onNewAccount}>
-                    Sign up
-                  </label>
-                </p>
-              )}
             </div>
             <p className="mt-20 text-center text-small">
               © 2025 Trade Buddy. tradebuddy.biz
             </p>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade modalCenter" id="successModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content modal-sm">
+            <div className="p-16 line-bt">
+              <h4 className="text-center">Password Reset Link Sent</h4>
+              <p className="mt-12 text-center text-small text-white">
+                Please Check Your Mail Inbox / Spam. <br></br>Link Expire in 10
+                min.
+              </p>
+            </div>
+            <div className="grid-1">
+              <p
+                className="line-r text-center text-button fw-6 p-10"
+                onClick={() => hideModal("successModal")}
+              >
+                OK
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -223,7 +177,7 @@ export default function Login() {
             <div className="grid-1">
               <p
                 className="line-r text-center text-button fw-6 p-10"
-                onClick={hideModal}
+                onClick={() => hideModal("messageModal")}
                 // data-bs-dismiss="modal"
               >
                 OK
