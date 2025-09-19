@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 export default function ResetPassword() {
   const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
   const navigate = useNavigate();
