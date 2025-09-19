@@ -23,6 +23,9 @@ import ClassRoom from "./account/ClassRoom";
 import UplineBonus from "./account/UplineBonus";
 import PasswordRecover from "./auth/PasswordRecover";
 import ResetPassword from "./auth/ResetPassword";
+import PerformanceBonus from "./account/PerformanceBonus";
+import Statement from "./account/Statement";
+import WithdrawalStatus from "./account/WithdrawalStatus";
 
 function App() {
   return (
@@ -50,8 +53,11 @@ function App() {
         <Route path="/level-reward" element={<CommunityReward />} />
         <Route path="/class-room" element={<ClassRoom />} />
         <Route path="/upline-bonus" element={<UplineBonus />} />
+        <Route path="/performance-bonus" element={<PerformanceBonus />} />
+        <Route path="/statement" element={<Statement />} />
         <Route path="/forgot" element={<PasswordRecover />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/withdraw-status" element={<WithdrawalStatus />} />
       </Routes>
     </HashRouter>
   );

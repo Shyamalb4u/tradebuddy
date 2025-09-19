@@ -186,31 +186,31 @@ export default function Menu() {
                 </Link>
               </li>
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/performance-bonus"
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
                 >
                   <i className="icon icon-fileText"></i>
                   Performance Bonus
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/statement"
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
                 >
                   <i className="icon icon-grid-nine"></i>
                   Statement
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/withdraw-status"
                   className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
                 >
                   <i className="icon icon-way"></i>
                   Withdraw
-                </a>
+                </Link>
               </li>
               {/* <li>
                 <a
