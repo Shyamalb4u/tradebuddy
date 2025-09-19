@@ -32,8 +32,8 @@ export default function ResetPassword() {
     return regex.test(email);
   };
   async function onReset() {
-    console.log(mail);
-    console.log(token);
+    //console.log(mail);
+    //console.log(token);
     setIsBusi(true);
     if (!validateEmail(mail)) {
       setIsBusi(false);
@@ -62,7 +62,7 @@ export default function ResetPassword() {
     const signUpurl = api_link + "resetPassword";
     const data = {
       mail: mail.trim(),
-      tolen: token,
+      token: token,
       pass: password,
     };
     const customHeaders = {
@@ -80,7 +80,8 @@ export default function ResetPassword() {
       }
       const reData = await result.json();
       const status = reData.data[0];
-      if (status === "OK") {
+      //console.log(status.status);
+      if (status.status === "OK") {
         setIsBusi(false);
         new window.bootstrap.Modal(
           document.getElementById("successModal")
@@ -94,13 +95,13 @@ export default function ResetPassword() {
       }
     } catch (error) {
       setIsBusi(false);
-      console.log(error.response?.data?.error || "Error on change password");
+      console.log("Error on change password");
     }
   }
   return (
     <>
       <div className="header fixed-top bg-surface trade-list-item p-2">
-        <a href="#" class="left back-btn" onClick={() => navigate("/")}>
+        <a href="/" class="left back-btn" onClick={() => navigate("/")}>
           <i className="icon-left-btn"></i>
         </a>
       </div>
