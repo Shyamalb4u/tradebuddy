@@ -26,6 +26,7 @@ import ResetPassword from "./auth/ResetPassword";
 import PerformanceBonus from "./account/PerformanceBonus";
 import Statement from "./account/Statement";
 import WithdrawalStatus from "./account/WithdrawalStatus";
+import UnpaidPayout from "./account/UnpaidPayout";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
         <Route path="/forgot" element={<PasswordRecover />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/withdraw-status" element={<WithdrawalStatus />} />
+        <Route path="/unpaid" element={<UnpaidPayout />} />
       </Routes>
     </HashRouter>
   );

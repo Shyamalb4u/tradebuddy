@@ -41,8 +41,8 @@ export default function PackageList() {
                     </span>
                   </div>
                   <h5 className="text-center text-primary">
-                    50<br></br>
-                    <span className="text-small">to</span> <br></br>450
+                    $50<br></br>
+                    <span className="text-small">to</span> <br></br>$450
                   </h5>
                 </label>
               </p>
@@ -66,8 +66,8 @@ export default function PackageList() {
                     </span>
                   </div>
                   <h5 className="text-center text-primary">
-                    500<br></br>
-                    <span className="text-small">to</span> <br></br>950
+                    $500<br></br>
+                    <span className="text-small">to</span> <br></br>$950
                   </h5>
                 </label>
               </p>
@@ -91,7 +91,7 @@ export default function PackageList() {
                     </span>
                   </div>
                   <h5 className="text-center text-primary">
-                    1000<br></br>
+                    $1000<br></br>
                     <span className="text-small">and</span> <br></br>Above
                   </h5>
                 </label>

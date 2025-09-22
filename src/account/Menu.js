@@ -212,6 +212,19 @@ export default function Menu() {
                   Withdraw
                 </Link>
               </li>
+              {admin === "YES" ? (
+                <li>
+                  <Link
+                    to="/unpaid"
+                    className="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center"
+                  >
+                    <i className="icon icon-way"></i>
+                    Pay Unpaid
+                  </Link>
+                </li>
+              ) : (
+                ""
+              )}
               {/* <li>
                 <a
                   href="/"

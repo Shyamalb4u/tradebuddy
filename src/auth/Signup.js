@@ -49,7 +49,7 @@ export default function Signup() {
       .then((res) => res.json())
       .then((data) => {
         setCountry(data.country.toLowerCase());
-        console.log(data.country.toLowerCase());
+        //console.log(data.country.toLowerCase());
       }) // "IN", "US", etc.
       .catch((err) => console.error(err));
   }, []);
@@ -69,6 +69,25 @@ export default function Signup() {
       }
     }
   }, []);
+  // useEffect(() => {
+  //   function showOffer() {
+  //     const modalEl = document.getElementById("offerDiv");
+  //     const modal = new window.bootstrap.Modal(modalEl);
+  //     modal.show();
+  //   }
+  //   showOffer();
+  //   // function hideOffer() {
+  //   //   const modalEl = document.getElementById("offerDiv");
+  //   //   const modal = new window.bootstrap.Modal(modalEl);
+  //   //   modal.hide();
+  //   // }
+  //   // setTimeout(() => {
+  //   //   showOffer();
+  //   // }, 2000);
+  //   // setTimeout(() => {
+  //   //   hideOffer();
+  //   // }, 4000);
+  // }, []);
 
   ////////////////////
   // function createWallet() {
@@ -86,6 +105,16 @@ export default function Signup() {
       new window.bootstrap.Modal(modalEl);
     modal.hide();
   };
+  // const hideOfferModal = () => {
+  //   const modalEl = document.getElementById("offerDiv");
+  //   const modal =
+  //     window.bootstrap.Modal.getInstance(modalEl) ||
+  //     new window.bootstrap.Modal(modalEl);
+  //   if (modal) {
+  //     modalEl.blur();
+  //     modal.hide();
+  //   }
+  // };
   const validateEmail = (email) => {
     // simple regex for email check
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -446,6 +475,23 @@ export default function Signup() {
           </div>
         </div>
       </div>
+      {/* <div className="modal fade modalCenter" id="offerDiv" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content modal-sm">
+            <div className="p-16 line-bt">
+              <h4 className="text-center">Signup Offer</h4>
+            </div>
+            <div className="grid-1">
+              <p
+                className="line-r text-center text-button fw-6 p-10"
+                onClick={hideOfferModal}
+              >
+                Close
+              </p>
+            </div>
+          </div>
+        </div>
+      </div> */}
       <TermsCondition />
     </>
   );

@@ -7,6 +7,16 @@ export default function WithdrawalStatus() {
   const address = userInfo.publicKey;
   const [tipsData, setTipsData] = useState([]);
 
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      // alert("Txn. Coppied");
+      // setTimeout(() => setCopied(false), 2000); // reset after 2s
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+
   useEffect(() => {
     async function getTipsData() {
       try {
@@ -23,7 +33,7 @@ export default function WithdrawalStatus() {
       }
     }
     getTipsData();
-  }, []);
+  }, [address]);
 
   function onBackClick() {
     navigate("/home");
@@ -47,13 +57,13 @@ export default function WithdrawalStatus() {
             ? tipsData.map((data) => (
                 <div className="accent-box-v5 bg-menuDark active mb-8">
                   <div className="content d-flex justify-content-between">
-                    <p className="text-white">USDT {data.AMOUNT}</p>
+                    <p className="text-large text-white">${data.AMOUNT}</p>
                     <p className="text-white">{data.dates}</p>
                   </div>
 
-                  <div className="mt-12">
+                  <div className="mt-10">
                     <p className="text-small text-white">
-                      Net Payable : USDT {data.NET}
+                      Net Payable : ${data.NET}
                     </p>
                     <p className="mt-4" style={{ whiteSpace: "pre-line" }}>
                       👉 Platform Fee (10%) : {data.ADMIN_CH} <br></br>
@@ -62,7 +72,14 @@ export default function WithdrawalStatus() {
                       {data.STATUS !== "Pending" ? (
                         <>
                           📅 Pay Date : {data.a_dates}
-                          <br></br> #️⃣ Txn. : {data.TXN}
+                          <br></br> #️⃣ Txn. :{String(data.TXN).slice(0, 16)}…
+                          {String(data.TXN).slice(-8)}{" "}
+                          <span>
+                            <i
+                              class="icon-copy fs-16 text-secondary"
+                              onClick={() => copyToClipboard(data.TXN)}
+                            ></i>
+                          </span>
                         </>
                       ) : (
                         ""
