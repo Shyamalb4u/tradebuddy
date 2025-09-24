@@ -1,10 +1,14 @@
 import { Accordion } from "react-bootstrap";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TermsCondition from "./TermsCondition";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const [days, setDays] = useState("0");
+  const [hh, setHh] = useState("0");
+  const [mins, setMins] = useState("0");
+  const [ss, setSs] = useState("0");
 
   useEffect(() => {
     try {
@@ -32,7 +36,44 @@ export default function HomePage() {
       locale: "en",
     });
     document.getElementById("tradingview-widget").appendChild(script);
-  });
+  }, [navigate]);
+  useEffect(() => {
+    const target = new Date("2025-10-07T00:00:00"); // 7th Oct 2025
+
+    const tick = () => {
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        setDays("0");
+        setHh("0");
+        setMins("0");
+        setSs("0");
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      setDays(days);
+      setHh(hours);
+      setMins(minutes);
+      setSs(seconds);
+      // setTimeLeft(
+      //   `${days}d ` +
+      //     `${hours.toString().padStart(2, "0")}:` +
+      //     `${minutes.toString().padStart(2, "0")}:` +
+      //     `${seconds.toString().padStart(2, "0")}`
+      // );
+    };
+
+    tick(); // run once immediately
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, []);
   //  <div id="tradingview-widget" style={{ width: "100%", height: "50px" }}></div>;
   //onClick={() => navigate("/signup")}
   return (
@@ -97,6 +138,25 @@ export default function HomePage() {
             <h4 className="text-center">
               The Global Crypto Currency to Buy & Sell
             </h4>
+          </div>
+          <h3 className="text-center text-warning">Grand Opening...</h3>
+          <div className="digit-group mt-10">
+            <p id="digit-2">
+              <h4>{days}</h4>
+              <h6>Days</h6>
+            </p>
+            <p id="digit-3">
+              <h4>{hh}</h4>
+              <h6>Hrs</h6>
+            </p>
+            <p id="digit-4">
+              <h4>{mins}</h4>
+              <h6>Min</h6>
+            </p>
+            <p id="digit-5">
+              <h4>{ss}</h4>
+              <h6>Sec</h6>
+            </p>
           </div>
           <div className="auth-line text-center mt-12">
             From tracking to growth — your crypto buddy for success.
