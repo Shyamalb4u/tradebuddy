@@ -1561,6 +1561,17 @@ input[type="text"].ip-style2 {
   font-weight: 600;
   line-height: 34px;
 }
+.digit-group p {
+  width: 58px;
+  height: 58px;
+  padding: 8px;
+  text-align: center;
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  /* font-size: 22px;
+  font-weight: 600; */
+  line-height: 34px;
+}
 
 .box-input-field {
   position: relative;
