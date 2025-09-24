@@ -482,6 +482,7 @@ export default function Signup() {
               <h4 className="text-center">Signup Offer</h4>
             </div>
             <div className="grid-1">
+              <img src="/images/signup-offer.jpg" className="p-2" alt="Offer" />
               <p
                 className="line-r text-center text-button fw-6 p-10"
                 onClick={() => hideOfferModal()}
