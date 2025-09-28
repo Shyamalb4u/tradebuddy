@@ -273,7 +273,7 @@ export default function Signup() {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
       const reData = await result.json();
-      const uid = reData.data[0];
+      const uid = reData.data[0].uid;
       /////////////// Mail
 
       await sendMail(uid);
