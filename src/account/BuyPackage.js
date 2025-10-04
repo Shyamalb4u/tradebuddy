@@ -74,7 +74,7 @@ export default function BuyPackage() {
         modal.show();
         return;
       }
-      if (!amount || Number(amount) < 1) {
+      if (!amount || Number(amount) < 50) {
         setIsSending(false);
         setErrorMessage("Minimum Subscription USDT 50");
         const modalEl = document.getElementById("messageModal");
@@ -82,14 +82,14 @@ export default function BuyPackage() {
         modal.show();
         return;
       }
-      // if (Number(amount) % 50 > 0) {
-      //   setIsSending(false);
-      //   setErrorMessage("Subscription Multiple Of 50");
-      //   const modalEl = document.getElementById("messageModal");
-      //   const modal = new window.bootstrap.Modal(modalEl);
-      //   modal.show();
-      //   return;
-      // }
+      if (Number(amount) % 50 > 0) {
+        setIsSending(false);
+        setErrorMessage("Subscription Multiple Of 50");
+        const modalEl = document.getElementById("messageModal");
+        const modal = new window.bootstrap.Modal(modalEl);
+        modal.show();
+        return;
+      }
       const contractWithSigner = usdtContract.connect(wallet);
       const amountUnits = ethers.parseUnits(amount.toString(), decimals);
       const tx = await contractWithSigner.transfer(to, amountUnits);

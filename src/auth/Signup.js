@@ -75,18 +75,9 @@ export default function Signup() {
       const modal = new window.bootstrap.Modal(modalEl);
       modal.show();
     }
-    //showOffer();
-    // function hideOffer() {
-    //   const modalEl = document.getElementById("offerDiv");
-    //   const modal = new window.bootstrap.Modal(modalEl);
-    //   modal.hide();
-    // }
     setTimeout(() => {
       showOffer();
     }, 2000);
-    // setTimeout(() => {
-    //   hideOffer();
-    // }, 4000);
   }, []);
 
   ////////////////////
@@ -274,6 +265,8 @@ export default function Signup() {
       }
       const reData = await result.json();
       const uid = reData.data[0].uid;
+      // console.log(reData.data[0].uid);
+      //console.log(reData.data[0]);
       /////////////// Mail
 
       await sendMail(uid);

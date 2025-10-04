@@ -250,6 +250,13 @@ export default function Home() {
     localStorage.clear();
     navigate("/");
   }
+  function hideBonusModal() {
+    const modalEl = document.getElementById("bonusModal");
+    const modal =
+      window.bootstrap.Modal.getInstance(modalEl) ||
+      new window.bootstrap.Modal(modalEl);
+    modal.hide();
+  }
   return (
     <>
       <div className="header-style2 fixed-top bg-menuDark">
@@ -487,6 +494,15 @@ export default function Home() {
               ) : (
                 "Loading..."
               )}
+              <div className="d-flex justify-content-center align-items-center">
+                <img
+                  src="/images/signupBonus.jpg"
+                  alt="Signup Bonus"
+                  style={{ marginTop: 10, marginRight: 17 }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#bonusModal"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -543,6 +559,26 @@ export default function Home() {
                 </div>
               </li>
             </ul>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade modalCenter" id="bonusModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content modal-sm">
+            <div className="p-16 line-bt">
+              <h4 className="text-center">Signup Bonus Claim</h4>
+              <p className="mt-12 text-center text-large text-warning">
+                📌 You have to earn $500 to claim the Signup Bonus.
+              </p>
+            </div>
+            <div className="grid-1">
+              <p
+                className="line-r text-center text-button fw-6 p-10"
+                onClick={hideBonusModal}
+              >
+                OK
+              </p>
+            </div>
           </div>
         </div>
       </div>
