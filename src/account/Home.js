@@ -498,7 +498,12 @@ export default function Home() {
                 <img
                   src="/images/signupBonus.jpg"
                   alt="Signup Bonus"
-                  style={{ marginTop: 10, marginRight: 17 }}
+                  style={{
+                    marginTop: 10,
+                    marginRight: 17,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                  }}
                   data-bs-toggle="modal"
                   data-bs-target="#bonusModal"
                 />
