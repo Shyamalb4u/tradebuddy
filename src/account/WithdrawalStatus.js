@@ -1,11 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { ethers } from "ethers";
+
 export default function WithdrawalStatus() {
   const navigate = useNavigate();
   const api_link = "https://trade-buddy-e63f6f3dce63.herokuapp.com/api/";
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const address = userInfo.publicKey;
   const [tipsData, setTipsData] = useState([]);
+
+  const POLYGON_RPC = "https://polygon-rpc.com";
+  const provider = useMemo(
+    () => new ethers.JsonRpcProvider(POLYGON_RPC),
+    [POLYGON_RPC]
+  );
 
   const copyToClipboard = async (text) => {
     try {
@@ -16,6 +24,75 @@ export default function WithdrawalStatus() {
       console.error("Failed to copy: ", err);
     }
   };
+
+  useEffect(() => {
+    async function getPendingWithdrawal() {
+      try {
+        let url = api_link + "pending_withdraw/" + address;
+        const result = await fetch(url);
+        const reData = await result.json();
+
+        if (reData.data !== "No Data") {
+          for (const pdata of reData.data) {
+            try {
+              const receipt = await provider.getTransactionReceipt(pdata.TXN);
+
+              if (receipt.status === 1) {
+                //set activation status success and calculate income abd achievement
+                const buyUpurl = api_link + "withdrawalCheck";
+                const data = {
+                  txn: pdata.TXN,
+                  type: "success",
+                };
+                const customHeaders = {
+                  "Content-Type": "application/json",
+                };
+                try {
+                  const result = await fetch(buyUpurl, {
+                    method: "POST",
+                    headers: customHeaders,
+                    body: JSON.stringify(data),
+                  });
+                  if (!result.ok) {
+                    throw new Error(`HTTP error! status: ${result.status}`);
+                  }
+                } catch (error) {
+                  console.log("Error!");
+                }
+              } else if (receipt.status === 0) {
+                const buyUpurl = api_link + "withdrawalCheck";
+                const data = {
+                  txn: pdata.TXN,
+                  type: "fail",
+                };
+                const customHeaders = {
+                  "Content-Type": "application/json",
+                };
+                try {
+                  const result = await fetch(buyUpurl, {
+                    method: "POST",
+                    headers: customHeaders,
+                    body: JSON.stringify(data),
+                  });
+                  if (!result.ok) {
+                    throw new Error(`HTTP error! status: ${result.status}`);
+                  }
+                } catch (error) {
+                  console.log("Error!");
+                }
+              }
+            } catch (e) {
+              console.log("Error!");
+            }
+          }
+        }
+      } catch (e) {
+        console.log("Error!");
+        return;
+      }
+    }
+    getPendingWithdrawal();
+  }, [address, api_link, provider]);
 
   useEffect(() => {
     async function getTipsData() {
@@ -55,7 +132,10 @@ export default function WithdrawalStatus() {
 
           {tipsData
             ? tipsData.map((data) => (
-                <div className="accent-box-v5 bg-menuDark active mb-8">
+                <div
+                  key={data.WITHDRA_SL}
+                  className="accent-box-v5 bg-menuDark active mb-8"
+                >
                   <div className="content d-flex justify-content-between">
                     <p className="text-large text-white">${data.AMOUNT}</p>
                     <p className="text-white">{data.dates}</p>

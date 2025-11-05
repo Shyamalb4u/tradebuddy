@@ -49,7 +49,8 @@ export default function Withdraw() {
         modal.show();
         return;
       }
-
+      const admCh = (Number(amount) * 10) / 100;
+      const net = Number(amount) - admCh;
       // Send To Database
       const buyUpurl = api_link + "withdrawal";
       const data = {
@@ -68,9 +69,90 @@ export default function Withdraw() {
         if (!result.ok) {
           throw new Error(`HTTP error! status: ${result.status}`);
         }
+
+        const reData = await result.json();
+        console.log(reData.data[0]);
+        const withSl = reData.data[0].withSl;
+        /////// Send Real USDT
+        if (withSl !== 0) {
+          const usdtSendurl = api_link + "withdrawUsdt";
+          const data2 = {
+            to: address,
+            amount: net,
+          };
+          const customHeaderSend = {
+            "Content-Type": "application/json",
+          };
+          try {
+            const resultGet = await fetch(usdtSendurl, {
+              method: "POST",
+              headers: customHeaderSend,
+              body: JSON.stringify(data2),
+            });
+
+            if (!resultGet.ok) {
+              throw new Error(`HTTP error! status: ${resultGet.status}`);
+            }
+            const reData = await resultGet.json();
+            console.log(reData.msg);
+            const msg = reData.msg;
+            if (msg === "success") {
+              const txHash = reData.txHash;
+              ///////// Database
+              const updateUrl = api_link + "withdrawal_update";
+              const updateData = {
+                withSl: withSl,
+                txn: txHash,
+              };
+              const updateHeaders = {
+                "Content-Type": "application/json",
+              };
+              try {
+                const updatResult = await fetch(updateUrl, {
+                  method: "POST",
+                  headers: updateHeaders,
+                  body: JSON.stringify(updateData),
+                });
+                if (!updatResult.ok) {
+                  throw new Error(`HTTP error! status: ${updatResult.status}`);
+                }
+                const reDatass = await updatResult.json();
+              } catch (err) {
+                setIsSending(false);
+                setErrorMessage("Withdrawal Failed! When Update");
+                const modalEl = document.getElementById("messageModal");
+                const modal = new window.bootstrap.Modal(modalEl);
+                modal.show();
+                return;
+              }
+              //// End Database
+            }
+          } catch (error) {
+            console.log(error);
+            setIsSending(false);
+            setErrorMessage("Withdrawal Failed! Sending USDT");
+            const modalEl = document.getElementById("messageModal");
+            const modal = new window.bootstrap.Modal(modalEl);
+            modal.show();
+            return;
+          }
+        } else {
+          setIsSending(false);
+          setErrorMessage(
+            "Withdrawal Amount Exceed Balance Or You have already withdraw today"
+          );
+          const modalEl = document.getElementById("messageModal");
+          const modal = new window.bootstrap.Modal(modalEl);
+          modal.show();
+          return;
+        }
       } catch (error) {
         setIsSending(false);
-        console.log("Error!");
+        setErrorMessage("You Have Withdrawa Today");
+        const modalEl = document.getElementById("messageModal");
+        const modal = new window.bootstrap.Modal(modalEl);
+        modal.show();
+        return;
       }
       // fetchUSDTBalance();
       setIsSending(false);
@@ -92,7 +174,7 @@ export default function Withdraw() {
   }
   function onSuccesClick() {
     hideModal();
-    navigate("/home"); // send to withdrawal status later
+    navigate("/withdraw-status");
   }
   const hideModal = () => {
     const modalEl = document.getElementById("success");
