@@ -2,6 +2,7 @@ import { Accordion } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TermsCondition from "./TermsCondition";
+import TradingViewBTC from "./TradingViewBTC";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -112,7 +113,7 @@ export default function HomePage() {
       </div>
       <div className="pt-80 pb-20">
         <div className="tf-container">
-          <div className="mt-80">
+          <div className="mt-80 mb-20">
             <p className="text-center mb-20">
               <img
                 className="text-center"
@@ -139,7 +140,7 @@ export default function HomePage() {
               The Global Crypto Currency to Buy & Sell
             </h4>
           </div>
-          <h3 className="text-center text-warning">Grand Opening...</h3>
+          {/* <h3 className="text-center text-warning">Grand Opening...</h3>
           <div className="digit-group mt-10">
             <p id="digit-2">
               <h4>{days}</h4>
@@ -157,7 +158,8 @@ export default function HomePage() {
               <h4>{ss}</h4>
               <h6>Sec</h6>
             </p>
-          </div>
+          </div> */}
+          <TradingViewBTC />
           <div className="auth-line text-center mt-12">
             From tracking to growth — your crypto buddy for success.
           </div>
@@ -166,11 +168,17 @@ export default function HomePage() {
           </div>
           <div className="card mt-1">
             <p className="text-center mb-20">
-              <img
+              {/* <img
                 className="text-center"
                 src="/images/graph.jpg"
                 alt="Trade Buddy Graph"
                 style={{ width: 220 }}
+              /> */}
+              <img
+                className="text-center mt-3"
+                src="/trading.png"
+                alt="Trade Buddy Graph"
+                style={{ width: "100%" }}
               />
               <h4 className="text-deep mt-3">About Trade Buddy</h4>
               <p className="text-center p-10">
@@ -205,11 +213,18 @@ export default function HomePage() {
                   “We guide you with tools and knowledge to help you grow and
                   protect your assets — stress-free.”
                 </h6>
-                <img
+
+                {/* <img
                   className="text-center mt-3"
                   src="/images/benefit-icon-1.png"
                   alt="Trade Buddy Graph"
                   style={{ width: 120 }}
+                /> */}
+                <img
+                  className="text-center mt-3"
+                  src="/trainer.png"
+                  alt="Trade Buddy Graph"
+                  style={{ width: "100%" }}
                 />
                 <h5 className="text-deep mt-3">Protect Your Wealth</h5>
                 <p className="text-deep mt-2">
