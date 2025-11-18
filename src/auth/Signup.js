@@ -69,16 +69,16 @@ export default function Signup() {
       }
     }
   }, []);
-  useEffect(() => {
-    function showOffer() {
-      const modalEl = document.getElementById("offerDiv");
-      const modal = new window.bootstrap.Modal(modalEl);
-      modal.show();
-    }
-    setTimeout(() => {
-      showOffer();
-    }, 2000);
-  }, []);
+  // useEffect(() => {
+  //   function showOffer() {
+  //     const modalEl = document.getElementById("offerDiv");
+  //     const modal = new window.bootstrap.Modal(modalEl);
+  //     modal.show();
+  //   }
+  //   setTimeout(() => {
+  //     showOffer();
+  //   }, 2000);
+  // }, []);
 
   ////////////////////
   // function createWallet() {
