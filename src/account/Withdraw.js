@@ -35,7 +35,7 @@ export default function Withdraw() {
     try {
       if (!amount || Number(amount) < 10 {
         setIsSending(false);
-        setErrorMessage("Minimum Withdrawal USDT 20");
+        setErrorMessage("Minimum Withdrawal USDT 10");
         const modalEl = document.getElementById("messageModal");
         const modal = new window.bootstrap.Modal(modalEl);
         modal.show();
